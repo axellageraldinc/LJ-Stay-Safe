@@ -1,9 +1,11 @@
-package lj.com.ljstaysafe;
+package lj.com.ljstaysafe.activity;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import lj.com.ljstaysafe.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
