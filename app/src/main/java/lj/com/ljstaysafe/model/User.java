@@ -15,4 +15,5 @@ public class User {
     private String email;
     private int points;
     private List<Friend> friendList;
+    private String drivingHistoryId;
 }
