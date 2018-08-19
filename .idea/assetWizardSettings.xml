@@ -56,7 +56,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_person_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_mode_comment_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -66,8 +66,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="5de89b" />
-                            <entry key="outputName" value="ic_user" />
+                            <entry key="color" value="a3a19e" />
+                            <entry key="outputName" value="ic_comment" />
                             <entry key="sourceFile" value="$PROJECT_DIR$/../../Kuliah/LjStaySafe/assets/logo.svg" />
                           </map>
                         </option>
