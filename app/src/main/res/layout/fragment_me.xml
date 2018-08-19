@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Profile"
+            android:text="@string/profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,7 +52,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/button_primary"
             android:padding="4dp"
-            android:text="Edit Profile"
+            android:text="@string/edit_profile"
             android:textColor="@color/colorAccent"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="LJ-Points"
+            android:text="@string/lj_points"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="@+id/imageView2" />
@@ -119,25 +119,24 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Settings"
+            android:text="@string/settings"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imageView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="TODO"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -156,13 +155,13 @@
         app:layout_constraintTop_toBottomOf="@+id/layoutSettings">
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/textView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="My Driving History"
+            android:text="@string/my_driving_history"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -174,7 +173,6 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="TODO"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -200,7 +198,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Logout"
+            android:text="@string/logout"
             android:textAlignment="center"
             android:textColor="@android:color/holo_red_light"
             android:textStyle="bold"
