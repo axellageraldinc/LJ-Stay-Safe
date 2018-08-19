@@ -11,11 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import lj.com.ljstaysafe.R;
+import lj.com.ljstaysafe.activity.DrivingHistoryActivity;
 import lj.com.ljstaysafe.activity.SettingsActivity;
 
 public class MeFragment extends Fragment implements ConstraintLayout.OnClickListener {
 
-    private ConstraintLayout layoutSettings;
+    private ConstraintLayout layoutSettings, layoutDrivingHistory;
 
 
     public MeFragment() {
@@ -33,6 +34,8 @@ public class MeFragment extends Fragment implements ConstraintLayout.OnClickList
         View view =  inflater.inflate(R.layout.fragment_me, container, false);
         layoutSettings = view.findViewById(R.id.layoutSettings);
         layoutSettings.setOnClickListener(this);
+        layoutDrivingHistory = view.findViewById(R.id.layoutDrivingHistory);
+        layoutDrivingHistory.setOnClickListener(this);
         return view;
     }
 
@@ -40,8 +43,12 @@ public class MeFragment extends Fragment implements ConstraintLayout.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.layoutSettings:
-                Intent intent = new Intent(getActivity(), SettingsActivity.class);
-                startActivity(intent);
+                Intent settingsActivity = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(settingsActivity);
+                break;
+            case R.id.layoutDrivingHistory:
+                Intent drivingHistoryActivity = new Intent(getActivity(), DrivingHistoryActivity.class);
+                startActivity(drivingHistoryActivity);
                 break;
         }
     }
