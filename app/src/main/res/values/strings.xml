@@ -23,4 +23,6 @@
     <string name="whitelist_contacts">Whitelist Contacts</string>
     <string name="save">SAVE</string>
     <string name="silent_all_notifications_except_phone_calls">Silent all notifications, except phone calls</string>
+    <string name="input_your_sms_message_here">Input your SMS message here</string>
+    <string name="auto_reply_sms_while_driving">Auto reply SMS while driving</string>
 </resources>
