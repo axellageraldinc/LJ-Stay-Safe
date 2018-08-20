@@ -12,14 +12,16 @@ import android.view.View;
 import java.util.Objects;
 
 import lj.com.ljstaysafe.R;
+import lj.com.ljstaysafe.dialog.MessageSettingsDialog;
 import lj.com.ljstaysafe.dialog.NotificationSettingsDialog;
 
 public class SettingsActivity extends AppCompatActivity implements ConstraintLayout.OnClickListener {
 
     private static final String NOTIFICATION_SETTINGS_DIALOG_TAG = "notification_settings_dialog";
+    private static final String MESSAGE_SETTINGS_DIALOG_TAG = "message_settings_dialog";
 
     private Toolbar toolbar;
-    private ConstraintLayout layoutWhitelistContactSettings, layoutNotificationSettings;
+    private ConstraintLayout layoutWhitelistContactSettings, layoutNotificationSettings, layoutMessageSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class SettingsActivity extends AppCompatActivity implements ConstraintLay
         layoutWhitelistContactSettings.setOnClickListener(this);
         layoutNotificationSettings = findViewById(R.id.layoutNotificationSettings);
         layoutNotificationSettings.setOnClickListener(this);
+        layoutMessageSettings = findViewById(R.id.layoutMessageSettings);
+        layoutMessageSettings.setOnClickListener(this);
     }
 
     @Override
@@ -45,16 +49,21 @@ public class SettingsActivity extends AppCompatActivity implements ConstraintLay
 
     @Override
     public void onClick(View v) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
         switch (v.getId()){
             case R.id.layoutWhitelistContactSettings:
                 Intent intent = new Intent(SettingsActivity.this, WhitelistContactsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.layoutNotificationSettings:
-                FragmentManager fragmentManager = getSupportFragmentManager();
                 DialogFragment notificationSettingsDialog = NotificationSettingsDialog.newInstance();
                 notificationSettingsDialog.setCancelable(true);
                 notificationSettingsDialog.show(fragmentManager, NOTIFICATION_SETTINGS_DIALOG_TAG);
+                break;
+            case R.id.layoutMessageSettings:
+                DialogFragment messageSettingsDialog = MessageSettingsDialog.newInstance();
+                messageSettingsDialog.setCancelable(true);
+                messageSettingsDialog.show(fragmentManager, MESSAGE_SETTINGS_DIALOG_TAG);
                 break;
         }
     }
