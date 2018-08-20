@@ -23,7 +23,8 @@
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.SettingsActivity" />
         <activity android:name=".activity.WhitelistContactsActivity" />
-        <activity android:name=".activity.DrivingHistoryActivity"></activity>
+        <activity android:name=".activity.DrivingHistoryActivity" />
+        <activity android:name=".activity.SeeDrivingScoreActivity"></activity>
     </application>
 
 </manifest>
