@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "713650886629",
+    "firebase_url": "https://staysafe-f4d96.firebaseio.com",
+    "project_id": "staysafe-f4d96",
+    "storage_bucket": "staysafe-f4d96.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713650886629:android:89c9ba5502ea6adf",
+        "android_client_info": {
+          "package_name": "lj.com.ljstaysafe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713650886629-cbtpkt1mp437jn2v72t3ek5but8bki8q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lj.com.ljstaysafe",
+            "certificate_hash": "6aef4afce432d56c360e154cb7750eabe895ffd9"
+          }
+        },
+        {
+          "client_id": "713650886629-k8912j0o6oldt7ns5sjn3799pdcim1ib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkj0aFlDNlx95vQwoZp-2GOviUGPgi814"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713650886629-k8912j0o6oldt7ns5sjn3799pdcim1ib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
