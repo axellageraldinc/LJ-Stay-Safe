@@ -21,4 +21,6 @@
     <string name="notification">Notification</string>
     <string name="message">Message</string>
     <string name="whitelist_contacts">Whitelist Contacts</string>
+    <string name="save">SAVE</string>
+    <string name="silent_all_notifications_except_phone_calls">Silent all notifications, except phone calls</string>
 </resources>

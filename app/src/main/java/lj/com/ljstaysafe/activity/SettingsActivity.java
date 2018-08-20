@@ -2,6 +2,8 @@ package lj.com.ljstaysafe.activity;
 
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,11 +12,14 @@ import android.view.View;
 import java.util.Objects;
 
 import lj.com.ljstaysafe.R;
+import lj.com.ljstaysafe.dialog.NotificationSettingsDialog;
 
 public class SettingsActivity extends AppCompatActivity implements ConstraintLayout.OnClickListener {
 
+    private static final String NOTIFICATION_SETTINGS_DIALOG_TAG = "notification_settings_dialog";
+
     private Toolbar toolbar;
-    private ConstraintLayout layoutWhitelistContactSettings;
+    private ConstraintLayout layoutWhitelistContactSettings, layoutNotificationSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,8 @@ public class SettingsActivity extends AppCompatActivity implements ConstraintLay
 
         layoutWhitelistContactSettings = findViewById(R.id.layoutWhitelistContactSettings);
         layoutWhitelistContactSettings.setOnClickListener(this);
+        layoutNotificationSettings = findViewById(R.id.layoutNotificationSettings);
+        layoutNotificationSettings.setOnClickListener(this);
     }
 
     @Override
@@ -42,6 +49,12 @@ public class SettingsActivity extends AppCompatActivity implements ConstraintLay
             case R.id.layoutWhitelistContactSettings:
                 Intent intent = new Intent(SettingsActivity.this, WhitelistContactsActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.layoutNotificationSettings:
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                DialogFragment notificationSettingsDialog = NotificationSettingsDialog.newInstance();
+                notificationSettingsDialog.setCancelable(true);
+                notificationSettingsDialog.show(fragmentManager, NOTIFICATION_SETTINGS_DIALOG_TAG);
                 break;
         }
     }
