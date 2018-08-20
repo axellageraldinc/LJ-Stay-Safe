@@ -4,7 +4,7 @@ import android.content.Context;
 
 import lj.com.ljstaysafe.contract.MessageSettingsDialogContract;
 import lj.com.ljstaysafe.model.MessageSetting;
-import lj.com.ljstaysafe.repository.MessageSettingInteractorImpl;
+import lj.com.ljstaysafe.repository.message.MessageSettingInteractorImpl;
 
 public class MessageSettingPresenterImpl implements MessageSettingsDialogContract.Presenter {
 

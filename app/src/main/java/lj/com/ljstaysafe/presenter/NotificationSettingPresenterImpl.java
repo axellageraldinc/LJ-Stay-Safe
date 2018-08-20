@@ -3,7 +3,7 @@ package lj.com.ljstaysafe.presenter;
 import android.content.Context;
 
 import lj.com.ljstaysafe.contract.NotificationSettingsDialogContract;
-import lj.com.ljstaysafe.repository.NotificationSettingInteractorImpl;
+import lj.com.ljstaysafe.repository.notification.NotificationSettingInteractorImpl;
 
 public class NotificationSettingPresenterImpl implements NotificationSettingsDialogContract.Presenter {
 

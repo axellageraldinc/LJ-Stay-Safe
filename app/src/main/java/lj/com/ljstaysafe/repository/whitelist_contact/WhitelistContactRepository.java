@@ -1,4 +1,4 @@
-package lj.com.ljstaysafe.repository;
+package lj.com.ljstaysafe.repository.whitelist_contact;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

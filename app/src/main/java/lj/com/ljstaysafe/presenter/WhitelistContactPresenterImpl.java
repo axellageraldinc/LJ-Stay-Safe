@@ -7,8 +7,8 @@ import java.util.List;
 
 import lj.com.ljstaysafe.contract.WhitelistContactContract;
 import lj.com.ljstaysafe.model.WhitelistContact;
-import lj.com.ljstaysafe.repository.WhitelistContactDatabase;
-import lj.com.ljstaysafe.repository.WhitelistContactRepository;
+import lj.com.ljstaysafe.repository.whitelist_contact.WhitelistContactDatabase;
+import lj.com.ljstaysafe.repository.whitelist_contact.WhitelistContactRepository;
 
 public class WhitelistContactPresenterImpl implements WhitelistContactContract.Presenter {
 

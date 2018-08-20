@@ -1,4 +1,4 @@
-package lj.com.ljstaysafe.repository;
+package lj.com.ljstaysafe.repository.message;
 
 import android.content.Context;
 import android.content.SharedPreferences;
