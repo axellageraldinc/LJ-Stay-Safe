@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import lj.com.ljstaysafe.R;
+import lj.com.ljstaysafe.driving.CheckDrivingStatusService;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -17,6 +18,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Intent checkDrivingStatusServiceIntent = new Intent(SplashScreenActivity.this, CheckDrivingStatusService.class);
+                startService(checkDrivingStatusServiceIntent);
                 Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
