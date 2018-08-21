@@ -7,6 +7,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import lj.com.ljstaysafe.R;
+import lj.com.ljstaysafe.activity.PassengerActivity;
 import lj.com.ljstaysafe.activity.SeeDrivingScoreActivity;
 
 public class NotificationHandler {
@@ -31,14 +32,15 @@ public class NotificationHandler {
                 .setContentTitle(title)
                 .setContentText(content)
                 .setOngoing(isPersistentNotification)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_MAX);
         if(isDriving){
-
+            intent = new Intent(context, PassengerActivity.class);
         } else{
             intent = new Intent(context, SeeDrivingScoreActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            notificationBuilder.setAutoCancel(true);
         }
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         notificationBuilder.setContentIntent(pendingIntent);
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
     }

@@ -29,4 +29,5 @@
     <string name="room_db_name">stay_safe_db</string>
     <string name="driving_status">driving status</string>
     <string name="passenger_status">passenger status</string>
+    <string name="enjoy_your_ride">Enjoy your ride!</string>
 </resources>
