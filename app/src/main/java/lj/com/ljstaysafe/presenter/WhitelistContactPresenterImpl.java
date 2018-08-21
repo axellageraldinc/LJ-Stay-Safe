@@ -7,18 +7,18 @@ import java.util.List;
 
 import lj.com.ljstaysafe.contract.WhitelistContactContract;
 import lj.com.ljstaysafe.model.WhitelistContact;
-import lj.com.ljstaysafe.repository.whitelist_contact.WhitelistContactDatabase;
+import lj.com.ljstaysafe.repository.AppDatabase;
 import lj.com.ljstaysafe.repository.whitelist_contact.WhitelistContactRepository;
 
 public class WhitelistContactPresenterImpl implements WhitelistContactContract.Presenter {
 
-    private WhitelistContactDatabase database;
+    private AppDatabase database;
     private Context context;
     private WhitelistContactContract.View view;
 
     public WhitelistContactPresenterImpl(Context context, WhitelistContactContract.View view) {
         this.context = context;
-        database = WhitelistContactDatabase.getDbInstance(context);
+        database = AppDatabase.getDbInstance(context);
         this.view = view;
     }
 

@@ -7,19 +7,19 @@ import java.util.List;
 
 import lj.com.ljstaysafe.contract.DeveloperLogContract;
 import lj.com.ljstaysafe.model.DeveloperLog;
-import lj.com.ljstaysafe.repository.developer.DeveloperLogDatabase;
+import lj.com.ljstaysafe.repository.AppDatabase;
 import lj.com.ljstaysafe.repository.developer.DeveloperLogRepository;
 
 public class DeveloperLogPresenterImpl implements DeveloperLogContract.Presenter {
 
     private Context context;
     private DeveloperLogContract.View view;
-    private DeveloperLogDatabase developerLogDatabase;
+    private AppDatabase developerLogDatabase;
 
     public DeveloperLogPresenterImpl(Context context, DeveloperLogContract.View view) {
         this.context = context;
         this.view = view;
-        developerLogDatabase = DeveloperLogDatabase.getDbInstance(context);
+        developerLogDatabase = AppDatabase.getDbInstance(context);
     }
 
     @Override
