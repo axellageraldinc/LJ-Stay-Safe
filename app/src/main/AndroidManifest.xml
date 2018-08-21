@@ -33,11 +33,6 @@
         <activity android:name=".activity.DrivingHistoryActivity" />
         <activity android:name=".activity.SeeDrivingScoreActivity" />
 
-        <service
-            android:name=".driving.CheckDrivingStatusService"
-            android:enabled="true"/>
-        <service android:name=".driving.DrivingStatusHandlerService" />
-
         <receiver android:name=".driving.CheckDrivingStatusBroadcastReceiver" />
 
         <activity android:name=".activity.PassengerActivity" />
