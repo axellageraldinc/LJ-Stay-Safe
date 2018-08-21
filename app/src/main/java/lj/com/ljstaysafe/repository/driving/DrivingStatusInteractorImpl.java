@@ -23,7 +23,19 @@ public class DrivingStatusInteractorImpl implements DrivingStatusContract.Intera
     }
 
     @Override
-    public Boolean getDrivingStatus(Boolean isDriving) {
+    public void savePassengerStatus(Boolean isPassenger) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(context.getString(R.string.passenger_status), isPassenger);
+        editor.apply();
+    }
+
+    @Override
+    public Boolean isDriving() {
         return sharedPreferences.getBoolean(context.getString(R.string.driving_status), false);
+    }
+
+    @Override
+    public Boolean isPassenger() {
+        return sharedPreferences.getBoolean(context.getString(R.string.passenger_status), false);
     }
 }
