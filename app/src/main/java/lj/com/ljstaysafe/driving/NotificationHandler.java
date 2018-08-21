@@ -3,6 +3,7 @@ package lj.com.ljstaysafe.driving;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
@@ -29,6 +30,7 @@ public class NotificationHandler {
     public void createNotification(Boolean isDriving, String title, String content, Boolean isPersistentNotification){
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_car)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
                 .setContentTitle(title)
                 .setContentText(content)
                 .setOngoing(isPersistentNotification)
@@ -40,7 +42,7 @@ public class NotificationHandler {
             notificationBuilder.setAutoCancel(true);
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         notificationBuilder.setContentIntent(pendingIntent);
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
     }

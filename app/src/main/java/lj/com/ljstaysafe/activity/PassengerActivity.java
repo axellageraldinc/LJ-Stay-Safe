@@ -44,8 +44,8 @@ public class PassengerActivity extends AppCompatActivity implements ImageView.On
                 ivPassenger.setImageDrawable(getDrawable(R.drawable.ic_happy));
                 notificationHandler.createNotification(
                         false,
-                        "Driving is over",
-                        "Click here to see your driving score",
+                        "Enjoy your ride!",
+                        "",
                         false);
                 break;
         }
