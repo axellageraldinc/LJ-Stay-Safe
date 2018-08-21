@@ -37,6 +37,7 @@ import lj.com.ljstaysafe.driving.CheckDrivingStatusBroadcastReceiver;
 import lj.com.ljstaysafe.fragment.FriendsFragment;
 import lj.com.ljstaysafe.fragment.HomeFragment;
 import lj.com.ljstaysafe.fragment.MeFragment;
+import lj.com.ljstaysafe.model.SensorHelper;
 import lj.com.ljstaysafe.repository.driving.DrivingStatusInteractorImpl;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, SensorEventListener {
@@ -208,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     long diffTime = (currentTime - lastUpdate);
                     lastUpdate = currentTime;
                     float speed = Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime * 10000;
+                    SensorHelper.SPEED = speed;
                     if (speed > THRESHOLD) {
                         Log.i(TAG, "SHAKING WITH SPEED : " + speed);
                     }

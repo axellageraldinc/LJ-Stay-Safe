@@ -21,7 +21,7 @@ public class SettingsActivity extends AppCompatActivity implements ConstraintLay
     private static final String MESSAGE_SETTINGS_DIALOG_TAG = "message_settings_dialog";
 
     private Toolbar toolbar;
-    private ConstraintLayout layoutWhitelistContactSettings, layoutNotificationSettings, layoutMessageSettings;
+    private ConstraintLayout layoutWhitelistContactSettings, layoutNotificationSettings, layoutMessageSettings, layoutDeveloperMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,8 @@ public class SettingsActivity extends AppCompatActivity implements ConstraintLay
         layoutNotificationSettings.setOnClickListener(this);
         layoutMessageSettings = findViewById(R.id.layoutMessageSettings);
         layoutMessageSettings.setOnClickListener(this);
+        layoutDeveloperMenu = findViewById(R.id.layoutDeveloperMenu);
+        layoutDeveloperMenu.setOnClickListener(this);
     }
 
     @Override
@@ -64,6 +66,10 @@ public class SettingsActivity extends AppCompatActivity implements ConstraintLay
                 DialogFragment messageSettingsDialog = MessageSettingsDialog.newInstance();
                 messageSettingsDialog.setCancelable(true);
                 messageSettingsDialog.show(fragmentManager, MESSAGE_SETTINGS_DIALOG_TAG);
+                break;
+            case R.id.layoutDeveloperMenu:
+                Intent developerMenuIntent = new Intent(SettingsActivity.this, DeveloperActivity.class);
+                startActivity(developerMenuIntent);
                 break;
         }
     }

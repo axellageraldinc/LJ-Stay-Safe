@@ -36,6 +36,7 @@
         <receiver android:name=".driving.CheckDrivingStatusBroadcastReceiver" />
 
         <activity android:name=".activity.PassengerActivity" />
+        <activity android:name=".activity.DeveloperActivity"></activity>
     </application>
 
 </manifest>
