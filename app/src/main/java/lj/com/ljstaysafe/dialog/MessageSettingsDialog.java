@@ -31,7 +31,9 @@ public class MessageSettingsDialog extends DialogFragment implements Button.OnCl
     }
 
     public static MessageSettingsDialog newInstance(){
-        return new MessageSettingsDialog();
+        MessageSettingsDialog messageSettingsDialog = new MessageSettingsDialog();
+        messageSettingsDialog.setStyle(STYLE_NO_TITLE, 0);
+        return messageSettingsDialog;
     }
 
     @Nullable

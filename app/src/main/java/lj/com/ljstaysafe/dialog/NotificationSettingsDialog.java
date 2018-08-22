@@ -31,7 +31,9 @@ public class NotificationSettingsDialog extends DialogFragment implements Button
     }
 
     public static NotificationSettingsDialog newInstance(){
-        return new NotificationSettingsDialog();
+        NotificationSettingsDialog notificationSettingsDialog = new NotificationSettingsDialog();
+        notificationSettingsDialog.setStyle(STYLE_NO_TITLE, 0);
+        return notificationSettingsDialog;
     }
 
     @Nullable
