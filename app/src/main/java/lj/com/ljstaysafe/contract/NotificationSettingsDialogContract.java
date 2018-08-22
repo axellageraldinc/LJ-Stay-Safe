@@ -1,7 +1,7 @@
 package lj.com.ljstaysafe.contract;
 
 public interface NotificationSettingsDialogContract {
-    interface Interactor{
+    interface Repository {
         void saveSetting(Boolean silentAllNotificationExceptPhoneCalls);
         Boolean getSetting();
     }

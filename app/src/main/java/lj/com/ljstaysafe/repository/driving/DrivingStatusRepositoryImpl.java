@@ -6,11 +6,11 @@ import android.content.SharedPreferences;
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.contract.DrivingStatusContract;
 
-public class DrivingStatusInteractorImpl implements DrivingStatusContract.Interactor {
+public class DrivingStatusRepositoryImpl implements DrivingStatusContract.Repository {
     private SharedPreferences sharedPreferences;
     private Context context;
 
-    public DrivingStatusInteractorImpl(Context context) {
+    public DrivingStatusRepositoryImpl(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(context.getString(R.string.driving_status), Context.MODE_PRIVATE);
     }

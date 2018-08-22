@@ -8,19 +8,19 @@ import android.util.Log;
 import com.google.android.gms.awareness.fence.FenceState;
 
 import lj.com.ljstaysafe.contract.DrivingStatusContract;
-import lj.com.ljstaysafe.repository.driving.DrivingStatusInteractorImpl;
+import lj.com.ljstaysafe.repository.driving.DrivingStatusRepositoryImpl;
 
 public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
 
     private static final String TAG = CheckDrivingStatusBroadcastReceiver.class.getSimpleName();
 
-    private DrivingStatusContract.Interactor drivingStatusInteractor;
+    private DrivingStatusContract.Repository drivingStatusRepository;
     private NotificationHandler notificationHandler;
     private Context context;
 
     public CheckDrivingStatusBroadcastReceiver(Context context) {
         this.context = context;
-        drivingStatusInteractor = new DrivingStatusInteractorImpl(context);
+        drivingStatusRepository = new DrivingStatusRepositoryImpl(context);
         notificationHandler = new NotificationHandler(context);
     }
 
@@ -30,8 +30,8 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
         Log.i(TAG, "Fence Receiver Received");
         switch (fenceState.getCurrentState()) {
             case FenceState.TRUE:
-                if (!drivingStatusInteractor.isPassenger()) {
-                    drivingStatusInteractor.saveDrivingStatus(true);
+                if (!drivingStatusRepository.isPassenger()) {
+                    drivingStatusRepository.saveDrivingStatus(true);
                     notificationHandler.createNotification(
                             true,
                             "No phone while driving!!!",
@@ -40,10 +40,10 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
                 }
                 break;
             case FenceState.FALSE:
-                if (!drivingStatusInteractor.isPassenger()) {
-                    drivingStatusInteractor.saveDrivingStatus(false);
+                if (!drivingStatusRepository.isPassenger()) {
+                    drivingStatusRepository.saveDrivingStatus(false);
                 } else {
-                    drivingStatusInteractor.savePassengerStatus(false);
+                    drivingStatusRepository.savePassengerStatus(false);
                 }
                 notificationHandler.createNotification(
                         false,
@@ -52,10 +52,10 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
                         false);
                 break;
             case FenceState.UNKNOWN:
-                if (!drivingStatusInteractor.isPassenger()) {
-                    drivingStatusInteractor.saveDrivingStatus(false);
+                if (!drivingStatusRepository.isPassenger()) {
+                    drivingStatusRepository.saveDrivingStatus(false);
                 } else {
-                    drivingStatusInteractor.savePassengerStatus(false);
+                    drivingStatusRepository.savePassengerStatus(false);
                 }
                 break;
         }

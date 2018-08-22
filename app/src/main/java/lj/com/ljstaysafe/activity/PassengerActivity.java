@@ -11,13 +11,13 @@ import android.widget.TextView;
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.contract.DrivingStatusContract;
 import lj.com.ljstaysafe.driving.NotificationHandler;
-import lj.com.ljstaysafe.repository.driving.DrivingStatusInteractorImpl;
+import lj.com.ljstaysafe.repository.driving.DrivingStatusRepositoryImpl;
 
 public class PassengerActivity extends AppCompatActivity implements ImageView.OnClickListener {
 
     private ImageView ivPassenger;
     private TextView tvClickIcon;
-    private DrivingStatusContract.Interactor drivingStatusInteractor;
+    private DrivingStatusContract.Repository drivingStatusRepository;
     private NotificationHandler notificationHandler;
 
     @Override
@@ -25,7 +25,7 @@ public class PassengerActivity extends AppCompatActivity implements ImageView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger);
 
-        drivingStatusInteractor = new DrivingStatusInteractorImpl(this);
+        drivingStatusRepository = new DrivingStatusRepositoryImpl(this);
         notificationHandler = new NotificationHandler(this);
 
         ivPassenger = findViewById(R.id.ivPassenger);
@@ -38,8 +38,8 @@ public class PassengerActivity extends AppCompatActivity implements ImageView.On
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ivPassenger:
-                drivingStatusInteractor.savePassengerStatus(true);
-                drivingStatusInteractor.saveDrivingStatus(false);
+                drivingStatusRepository.savePassengerStatus(true);
+                drivingStatusRepository.saveDrivingStatus(false);
                 tvClickIcon.setText(R.string.enjoy_your_ride);
                 ivPassenger.setImageDrawable(getDrawable(R.drawable.ic_happy));
                 notificationHandler.createNotification(

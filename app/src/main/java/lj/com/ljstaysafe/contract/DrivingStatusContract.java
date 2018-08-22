@@ -1,7 +1,7 @@
 package lj.com.ljstaysafe.contract;
 
 public interface DrivingStatusContract {
-    interface Interactor{
+    interface Repository {
         void saveDrivingStatus(Boolean isDriving);
         void savePassengerStatus(Boolean isPassenger);
         Boolean isDriving();

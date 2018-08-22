@@ -7,14 +7,14 @@ import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.contract.MessageSettingsDialogContract;
 import lj.com.ljstaysafe.model.MessageSetting;
 
-public class MessageSettingInteractorImpl implements MessageSettingsDialogContract.Interactor{
+public class MessageSettingRepositoryImpl implements MessageSettingsDialogContract.Repository {
 
     private Context context;
     private SharedPreferences sharedPreferences;
 
-    public MessageSettingInteractorImpl(Context context) {
+    public MessageSettingRepositoryImpl(Context context) {
         this.context = context;
-        sharedPreferences = context.getSharedPreferences(MessageSettingInteractorImpl.class.getName(), Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(MessageSettingRepositoryImpl.class.getName(), Context.MODE_PRIVATE);
     }
 
     @Override

@@ -14,22 +14,22 @@ public class DeveloperLogPresenterImpl implements DeveloperLogContract.Presenter
 
     private Context context;
     private DeveloperLogContract.View view;
-    private AppDatabase developerLogDatabase;
+    private AppDatabase database;
 
     public DeveloperLogPresenterImpl(Context context, DeveloperLogContract.View view) {
         this.context = context;
         this.view = view;
-        developerLogDatabase = AppDatabase.getDbInstance(context);
+        database = AppDatabase.getDbInstance(context);
     }
 
     @Override
     public void saveLog(DeveloperLog developerLog) {
-        new SaveLog(developerLogDatabase.developerLogRepository(), view).execute(developerLog);
+        new SaveLog(database.developerLogRepository(), view).execute(developerLog);
     }
 
     @Override
     public void loadLogs() {
-        new LoadLogs(developerLogDatabase.developerLogRepository(), view).execute();
+        new LoadLogs(database.developerLogRepository(), view).execute();
     }
 
     private static class SaveLog extends AsyncTask<DeveloperLog, Void, Void> {

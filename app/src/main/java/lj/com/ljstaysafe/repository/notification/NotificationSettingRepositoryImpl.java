@@ -6,14 +6,14 @@ import android.content.SharedPreferences;
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.contract.NotificationSettingsDialogContract;
 
-public class NotificationSettingInteractorImpl implements NotificationSettingsDialogContract.Interactor {
+public class NotificationSettingRepositoryImpl implements NotificationSettingsDialogContract.Repository {
 
     private SharedPreferences sharedPreferences;
     private Context context;
 
-    public NotificationSettingInteractorImpl(Context context) {
+    public NotificationSettingRepositoryImpl(Context context) {
         this.context = context;
-        sharedPreferences = context.getSharedPreferences(NotificationSettingInteractorImpl.class.getName(), Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(NotificationSettingRepositoryImpl.class.getName(), Context.MODE_PRIVATE);
     }
 
     @Override

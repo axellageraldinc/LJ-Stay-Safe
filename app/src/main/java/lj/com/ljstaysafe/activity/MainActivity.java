@@ -39,8 +39,7 @@ import lj.com.ljstaysafe.driving.sensor.ThreeAxesSensorReader;
 import lj.com.ljstaysafe.fragment.FriendsFragment;
 import lj.com.ljstaysafe.fragment.HomeFragment;
 import lj.com.ljstaysafe.fragment.MeFragment;
-import lj.com.ljstaysafe.model.SensorHelper;
-import lj.com.ljstaysafe.repository.driving.DrivingStatusInteractorImpl;
+import lj.com.ljstaysafe.repository.driving.DrivingStatusRepositoryImpl;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
@@ -63,14 +62,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private SensorManager sensorManager;
     private Sensor accelerometer, gravity, gyroscope;
 
-    private DrivingStatusContract.Interactor drivingStatusInteractor;
+    private DrivingStatusContract.Repository drivingStatusRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        drivingStatusInteractor = new DrivingStatusInteractorImpl(this);
+        drivingStatusRepository = new DrivingStatusRepositoryImpl(this);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         registerSensors();
@@ -202,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if(drivingStatusInteractor.isDriving()) {
+        if(drivingStatusRepository.isDriving()) {
             Sensor sensor = event.sensor;
             ThreeAxesSensorReader threeAxesSensorReader = SensorReaderFactory.getSensor(sensor.getType());
             currentTime = System.currentTimeMillis();
