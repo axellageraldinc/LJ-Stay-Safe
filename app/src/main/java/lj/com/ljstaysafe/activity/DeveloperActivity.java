@@ -1,6 +1,8 @@
 package lj.com.ljstaysafe.activity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +26,7 @@ import lj.com.ljstaysafe.presenter.DeveloperLogPresenterImpl;
 public class DeveloperActivity extends AppCompatActivity implements Button.OnClickListener, DeveloperLogContract.View {
 
     private static SimpleDateFormat SIMPLE_DATE_FORMAT;
+    private StringBuilder stringBuilder;
 
     private RecyclerView rvDeveloperLog;
     private RecyclerViewDeveloperLogAdapter rvDeveloperLogAdapter;
@@ -37,6 +40,7 @@ public class DeveloperActivity extends AppCompatActivity implements Button.OnCli
         setContentView(R.layout.activity_developer);
 
         SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        stringBuilder = new StringBuilder();
 
         rvDeveloperLog = findViewById(R.id.rvDeveloperLog);
         rvDeveloperLog.setLayoutManager(new LinearLayoutManager(this));
@@ -46,6 +50,24 @@ public class DeveloperActivity extends AppCompatActivity implements Button.OnCli
 
         btnTakeNote = findViewById(R.id.btnTakeNote);
         btnTakeNote.setOnClickListener(this);
+
+        showAlertDialog();
+    }
+
+    private void showAlertDialog(){
+        AlertDialog alertDialog = new AlertDialog.Builder(DeveloperActivity.this, R.style.AppTheme_AlertDialog)
+                .setCancelable(false)
+                .setTitle("JANGAN LUPA!")
+                .setMessage("Selalu catat log untuk kondisi berkendara yang baik terlebih dahulu " +
+                        "sebelum mencatat log untuk kondisi berkendara yang buruk.\n" +
+                        "Ini dikarenakan datanya dibutuhkan sebagai pembanding antara kondisi sensor saat berkendara baik dan buruk itu bagaimana.")
+                .setPositiveButton("OKE SIYAP!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        alertDialog.show();
     }
 
     @Override
@@ -55,8 +77,14 @@ public class DeveloperActivity extends AppCompatActivity implements Button.OnCli
                 presenter.saveLog(DeveloperLog.builder()
                         .id(UUID.randomUUID().toString())
                         .date(SIMPLE_DATE_FORMAT.format(new Date()))
-                        .value(String.valueOf(SensorHelper.SPEED))
+                        .value(
+                                String.valueOf(stringBuilder
+                                        .append("x : ").append(String.valueOf(SensorHelper.ACC_X))
+                                        .append("\ny : ").append(String.valueOf(SensorHelper.ACC_Y))
+                                        .append("\nz : ").append(String.valueOf(SensorHelper.ACC_Z)))
+                        )
                         .build());
+                stringBuilder.setLength(0);
                 presenter.loadLogs();
                 break;
         }

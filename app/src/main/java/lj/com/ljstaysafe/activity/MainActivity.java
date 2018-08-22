@@ -34,6 +34,8 @@ import java.util.Objects;
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.contract.DrivingStatusContract;
 import lj.com.ljstaysafe.driving.CheckDrivingStatusBroadcastReceiver;
+import lj.com.ljstaysafe.driving.sensor.SensorReaderFactory;
+import lj.com.ljstaysafe.driving.sensor.ThreeAxesSensorReader;
 import lj.com.ljstaysafe.fragment.FriendsFragment;
 import lj.com.ljstaysafe.fragment.HomeFragment;
 import lj.com.ljstaysafe.fragment.MeFragment;
@@ -44,9 +46,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private static final String TAG = MainActivity.class.getName();
     private static final String FENCE_RECEIVER_ACTION = "FENCE_RECEIVE";
-    private static final float THRESHOLD = 50;
+    private static final float THRESHOLD_ACC_X = 50;
+    private static final float THRESHOLD_ACC_Y = 50;
+    private static final float THRESHOLD_ACC_Z = 50;
 
-    private long lastUpdate;
+    private long currentTime, lastTime;
     private float lastX, lastY, lastZ;
 
     private Toolbar toolbar;
@@ -114,17 +118,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 Log.i(TAG, "instantiate accel");
                 accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             }
-        } if(Objects.requireNonNull(sensorManager).getDefaultSensor(Sensor.TYPE_GRAVITY) != null){
-            if(gravity==null) {
-                Log.i(TAG, "instantiate gravity");
-                gravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-            }
-        } if(Objects.requireNonNull(sensorManager).getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null){
-            if(gyroscope==null) {
-                Log.i(TAG, "instantiate gyro");
-                gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-            }
         }
+//        if(Objects.requireNonNull(sensorManager).getDefaultSensor(Sensor.TYPE_GRAVITY) != null){
+//            if(gravity==null) {
+//                Log.i(TAG, "instantiate gravity");
+//                gravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+//            }
+//        } if(Objects.requireNonNull(sensorManager).getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null){
+//            if(gyroscope==null) {
+//                Log.i(TAG, "instantiate gyro");
+//                gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+//            }
+//        }
     }
 
     private void connectGoogleApiClient(){
@@ -138,8 +143,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onResume() {
         super.onResume();
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, gravity, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+//        sensorManager.registerListener(this, gravity, SensorManager.SENSOR_DELAY_NORMAL);
+//        sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
         registerFence();
         registerReceiver(checkDrivingStatusBroadcastReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
     }
@@ -199,31 +204,38 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void onSensorChanged(SensorEvent event) {
         if(drivingStatusInteractor.isDriving()) {
             Sensor sensor = event.sensor;
-            if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                float x = event.values[0];
-                float y = event.values[1];
-                float z = event.values[2];
-
-                long currentTime = System.currentTimeMillis();
-                if ((currentTime - lastUpdate) > 100) {
-                    long diffTime = (currentTime - lastUpdate);
-                    lastUpdate = currentTime;
-                    float speed = Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime * 10000;
-                    SensorHelper.SPEED = speed;
-                    if (speed > THRESHOLD) {
-                        Log.i(TAG, "SHAKING WITH SPEED : " + speed);
-                    }
-                    lastX = x;
-                    lastY = y;
-                    lastZ = z;
-                }
+            ThreeAxesSensorReader threeAxesSensorReader = SensorReaderFactory.getSensor(sensor.getType());
+            currentTime = System.currentTimeMillis();
+            if(currentTime-lastTime > 100) {
+                threeAxesSensorReader.read(event.values[0], event.values[1], event.values[2]);
             }
-            if (sensor.getType() == Sensor.TYPE_GRAVITY) {
-
-            }
-            if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-
-            }
+//            if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+//                float x = event.values[0];
+//                float y = event.values[1];
+//                float z = event.values[2];
+//
+//                long currentTime = System.currentTimeMillis();
+//                if ((currentTime - lastUpdate) > 100) {
+////                    long diffTime = (currentTime - lastUpdate);
+//                    lastUpdate = currentTime;
+////                    float speed = Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime * 10000;
+//                    SensorHelper.ACC_X = x;
+//                    SensorHelper.ACC_Y = y;
+//                    SensorHelper.ACC_Z = z;
+//                    if (x > THRESHOLD_ACC_X && y > THRESHOLD_ACC_Y && z > THRESHOLD_ACC_Z) {
+//                        //Bad behaviour detected
+//                    }
+////                    lastX = x;
+////                    lastY = y;
+////                    lastZ = z;
+//                }
+//            }
+//            if (sensor.getType() == Sensor.TYPE_GRAVITY) {
+//
+//            }
+//            if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+//
+//            }
         }
     }
 
