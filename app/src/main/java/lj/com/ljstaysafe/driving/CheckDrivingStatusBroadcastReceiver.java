@@ -27,7 +27,7 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         FenceState fenceState = FenceState.extract(intent);
-        Log.i(TAG, "Fence Receiver Received");
+        Log.d(TAG, "Fence Receiver Received");
         switch (fenceState.getCurrentState()) {
             case FenceState.TRUE:
                 if (!drivingStatusRepository.isPassenger()) {

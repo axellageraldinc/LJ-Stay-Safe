@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private void registerSensors(){
         if(Objects.requireNonNull(sensorManager).getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
             if(accelerometer==null) {
-                Log.i(TAG, "instantiate accel");
+                Log.d(TAG, "instantiate accel");
                 accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             }
         }
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     @Override
                     public void onResult(@NonNull Status status) {
                         if (status.isSuccess()) {
-                            Log.i(TAG, "Fence " + getResources().getString(R.string.driving_status) + " was successfully registered.");
+                            Log.d(TAG, "Fence " + getResources().getString(R.string.driving_status) + " was successfully registered.");
                         } else {
                             Log.e(TAG, "Fence " + getResources().getString(R.string.driving_status) + " could NOT be registered: " + status);
                         }
@@ -189,12 +189,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         .build()).setResultCallback(new ResultCallbacks<Status>() {
             @Override
             public void onSuccess(@NonNull Status status) {
-                Log.i(TAG, "Fence " + getResources().getString(R.string.driving_status) + " successfully removed.");
+                Log.d(TAG, "Fence " + getResources().getString(R.string.driving_status) + " successfully removed.");
             }
 
             @Override
             public void onFailure(@NonNull Status status) {
-                Log.i(TAG, "Fence " + getResources().getString(R.string.driving_status) + " could NOT be removed.");
+                Log.d(TAG, "Fence " + getResources().getString(R.string.driving_status) + " could NOT be removed.");
             }
         });
     }
@@ -207,34 +207,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             currentTime = System.currentTimeMillis();
             if(currentTime-lastTime > 100) {
                 threeAxesSensorReader.read(event.values[0], event.values[1], event.values[2]);
+                lastTime = currentTime;
             }
-//            if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-//                float x = event.values[0];
-//                float y = event.values[1];
-//                float z = event.values[2];
-//
-//                long currentTime = System.currentTimeMillis();
-//                if ((currentTime - lastUpdate) > 100) {
-////                    long diffTime = (currentTime - lastUpdate);
-//                    lastUpdate = currentTime;
-////                    float speed = Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime * 10000;
-//                    SensorHelper.ACC_X = x;
-//                    SensorHelper.ACC_Y = y;
-//                    SensorHelper.ACC_Z = z;
-//                    if (x > THRESHOLD_ACC_X && y > THRESHOLD_ACC_Y && z > THRESHOLD_ACC_Z) {
-//                        //Bad behaviour detected
-//                    }
-////                    lastX = x;
-////                    lastY = y;
-////                    lastZ = z;
-//                }
-//            }
-//            if (sensor.getType() == Sensor.TYPE_GRAVITY) {
-//
-//            }
-//            if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-//
-//            }
         }
     }
 
