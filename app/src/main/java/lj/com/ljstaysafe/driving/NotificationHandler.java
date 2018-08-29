@@ -1,5 +1,6 @@
 package lj.com.ljstaysafe.driving;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -17,20 +18,21 @@ public class NotificationHandler {
     private static final Integer NOTIFICATION_ID = 123;
 
     private Context context;
-    private NotificationManagerCompat notificationManager;
+    private NotificationManager notificationManager;
 
     private Intent intent;
     private PendingIntent pendingIntent;
 
     public NotificationHandler(Context context) {
         this.context = context;
-        notificationManager = NotificationManagerCompat.from(context);
+//        notificationManager = NotificationManagerCompat.from(context);
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public void createNotification(Boolean isDriving, String title, String content, Boolean isPersistentNotification){
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_car)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
+//                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
                 .setContentTitle(title)
                 .setContentText(content)
                 .setOngoing(isPersistentNotification)

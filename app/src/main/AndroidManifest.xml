@@ -37,6 +37,9 @@
 
         <activity android:name=".activity.PassengerActivity" />
         <activity android:name=".activity.DeveloperActivity"></activity>
+
+        <service android:name=".driving.CheckDrivingStatusService" />
+        <service android:name=".driving.FenceStatusHandlerService" />
     </application>
 
 </manifest>

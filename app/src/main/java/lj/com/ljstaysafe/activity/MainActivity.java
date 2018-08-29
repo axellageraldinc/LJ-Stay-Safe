@@ -34,6 +34,8 @@ import java.util.Objects;
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.contract.DrivingStatusContract;
 import lj.com.ljstaysafe.driving.CheckDrivingStatusBroadcastReceiver;
+import lj.com.ljstaysafe.driving.CheckDrivingStatusService;
+import lj.com.ljstaysafe.driving.NotificationHandler;
 import lj.com.ljstaysafe.driving.sensor.SensorReaderFactory;
 import lj.com.ljstaysafe.driving.sensor.ThreeAxesSensorReader;
 import lj.com.ljstaysafe.fragment.FriendsFragment;
@@ -45,19 +47,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private static final String TAG = MainActivity.class.getName();
     private static final String FENCE_RECEIVER_ACTION = "FENCE_RECEIVE";
-    private static final float THRESHOLD_ACC_X = 50;
-    private static final float THRESHOLD_ACC_Y = 50;
-    private static final float THRESHOLD_ACC_Z = 50;
 
     private long currentTime, lastTime;
-    private float lastX, lastY, lastZ;
 
     private Toolbar toolbar;
     private BottomNavigationView bottomNavigationView;
 
     private GoogleApiClient googleApiClient;
     private PendingIntent pendingIntent;
-    private CheckDrivingStatusBroadcastReceiver checkDrivingStatusBroadcastReceiver;
 
     private SensorManager sensorManager;
     private Sensor accelerometer, gravity, gyroscope;
@@ -75,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         registerSensors();
 
         connectGoogleApiClient();
-        checkDrivingStatusBroadcastReceiver = new CheckDrivingStatusBroadcastReceiver(this);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -139,26 +135,29 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        registerFence();
+        Intent intent = new Intent(this, CheckDrivingStatusService.class);
+        startService(intent);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 //        sensorManager.registerListener(this, gravity, SensorManager.SENSOR_DELAY_NORMAL);
 //        sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
-        registerFence();
-        registerReceiver(checkDrivingStatusBroadcastReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
+//        registerReceiver(checkDrivingStatusBroadcastReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         // Temporarily here for unregistering shits (for testing purposes, off screen)
-        sensorManager.unregisterListener(this);
-        unregisterFence();
-        unregisterReceiver(checkDrivingStatusBroadcastReceiver);
+//        sensorManager.unregisterListener(this);
+//        unregisterFence();
+//        unregisterReceiver(checkDrivingStatusBroadcastReceiver);
     }
 
     private void registerFence(){
