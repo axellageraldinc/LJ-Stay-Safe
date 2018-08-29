@@ -6,6 +6,7 @@ public interface RegisterContract {
     interface View{
         void showLoadingView();
         void dismissLoadingView();
+        void moveToLoginPage();
     }
     interface Presenter{
         void saveUser(User user, String userPassword);

@@ -36,22 +36,18 @@ public class RegisterPresenterImpl implements RegisterContract.Presenter {
     @Override
     public void saveUser(final User user, String userPassword) {
         view.showLoadingView();
+        saveUserToFirebaseAuth(user, userPassword);
+    }
+
+    private void saveUserToFirebaseAuth(final User user, String userPassword){
         firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), userPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             user.setId(task.getResult().getUser().getUid());
-                            collectionReference.add(user).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentReference> task) {
-                                    if(task.isSuccessful()){
-                                        Toast.makeText(context, user.getEmail() + " successfully registered!", Toast.LENGTH_SHORT).show();
-                                        view.dismissLoadingView();
-                                    }
-                                }
-                            });
-                        } else{
+                            saveUserToFirestore(user);
+                        } else {
                             Toast.makeText(context, "Error while registering!\n" +
                                     task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             view.dismissLoadingView();
@@ -59,4 +55,18 @@ public class RegisterPresenterImpl implements RegisterContract.Presenter {
                     }
                 });
     }
+
+    private void saveUserToFirestore(final User user){
+        collectionReference.add(user).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(context, user.getEmail() + " successfully registered!", Toast.LENGTH_SHORT).show();
+                    view.dismissLoadingView();
+                    view.moveToLoginPage();
+                }
+            }
+        });
+    }
+
 }

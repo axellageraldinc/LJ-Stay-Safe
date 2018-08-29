@@ -1,6 +1,7 @@
 package lj.com.ljstaysafe.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etFullname = findViewById(R.id.etFullname);
+        etFullname.requestFocus();
 
         btnRegister = findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(this);
@@ -51,6 +53,14 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
     @Override
     public void dismissLoadingView() {
         progressDialog.dismiss();
+    }
+
+    @Override
+    public void moveToLoginPage() {
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+        finish();
     }
 
     private User buildUser(){
