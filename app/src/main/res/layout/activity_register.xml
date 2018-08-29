@@ -74,6 +74,7 @@
                 android:inputType="textEmailAddress"
                 android:textColorLink="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -101,7 +102,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnRegister"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="8dp"

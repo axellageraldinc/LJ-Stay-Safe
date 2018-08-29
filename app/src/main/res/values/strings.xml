@@ -10,7 +10,7 @@
     <string name="login">LOGIN</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="sign_up_here">Sign up here...</string>
+    <string name="sign_up_here">Sign up here</string>
     <string name="full_name">Full name</string>
     <string name="register">REGISTER</string>
     <string name="lj_points">LJ-Points</string>
@@ -30,4 +30,6 @@
     <string name="driving_status">driving status</string>
     <string name="passenger_status">passenger status</string>
     <string name="enjoy_your_ride">Enjoy your ride!</string>
+
+    <string name="user_collection">users</string>
 </resources>
