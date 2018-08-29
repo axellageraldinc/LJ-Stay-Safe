@@ -12,8 +12,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.contract.RegisterContract;
+import lj.com.ljstaysafe.model.Friend;
 import lj.com.ljstaysafe.model.User;
 
 public class RegisterPresenterImpl implements RegisterContract.Presenter {
@@ -46,6 +49,7 @@ public class RegisterPresenterImpl implements RegisterContract.Presenter {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             user.setId(task.getResult().getUser().getUid());
+                            user.setFriendList(new ArrayList<Friend>()); //default empty array (no friends yet)
                             saveUserToFirestore(user);
                         } else {
                             Toast.makeText(context, "Error while registering!\n" +
