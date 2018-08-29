@@ -46,6 +46,7 @@ public class RegisterPresenterImpl implements RegisterContract.Presenter {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             user.setId(task.getResult().getUser().getUid());
+                            user.setPoints(0);
                             saveUserToFirestore(user);
                         } else {
                             Toast.makeText(context, "Error while registering!\n" +
