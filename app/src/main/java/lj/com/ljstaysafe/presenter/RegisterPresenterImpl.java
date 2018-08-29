@@ -46,7 +46,6 @@ public class RegisterPresenterImpl implements RegisterContract.Presenter {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             user.setId(task.getResult().getUser().getUid());
-                            user.setPoints(0);
                             saveUserToFirestore(user);
                         } else {
                             Toast.makeText(context, "Error while registering!\n" +
@@ -58,9 +57,9 @@ public class RegisterPresenterImpl implements RegisterContract.Presenter {
     }
 
     private void saveUserToFirestore(final User user){
-        collectionReference.add(user).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        collectionReference.document(user.getId()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
+            public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, user.getEmail() + " successfully registered!", Toast.LENGTH_SHORT).show();
                     view.dismissLoadingView();
