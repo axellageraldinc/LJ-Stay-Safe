@@ -60,7 +60,7 @@ public class FriendsFragment extends Fragment implements FriendsContract.View, V
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading data...");
+        progressDialog.setMessage("Please wait...");
         progressDialog.setIndeterminate(true);
 
         presenter = new FriendsPresenterImpl(getActivity(), this);

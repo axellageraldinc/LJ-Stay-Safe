@@ -85,10 +85,17 @@ public class FriendsPresenterImpl implements FriendsContract.Presenter {
                                         .userId(Objects.requireNonNull(newFriendAccount).getId())
                                         .userFullname(newFriendAccount.getFullname())
                                         .build());
+                                List<Map<String, String>> friendList = new ArrayList<>();
+                                for (Friend friend:friends){
+                                    Map<String, String> friendMap = new HashMap<>();
+                                    friendMap.put("userId", friend.getUserId());
+                                    friendMap.put("userFullname", friend.getUserFullname());
+                                    friendList.add(friendMap);
+                                }
                                 firebaseFirestore
                                         .collection(context.getResources().getString(R.string.user_collection))
                                         .document(userId)
-                                        .update("friendList", friends)
+                                        .update("friendList", friendList)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
