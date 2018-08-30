@@ -1,7 +1,9 @@
 package lj.com.ljstaysafe.fragment;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,15 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.activity.DrivingHistoryActivity;
+import lj.com.ljstaysafe.activity.LoginActivity;
 import lj.com.ljstaysafe.activity.SettingsActivity;
 import lj.com.ljstaysafe.contract.MeContract;
 import lj.com.ljstaysafe.presenter.MePresenterImpl;
 
 public class MeFragment extends Fragment implements ConstraintLayout.OnClickListener, MeContract.View {
 
-    private ConstraintLayout layoutSettings, layoutDrivingHistory;
+    private ConstraintLayout layoutSettings, layoutDrivingHistory, layoutLogout;
     private TextView tvUserFullname, tvLjPoints;
 
     private ProgressDialog progressDialog;
@@ -44,6 +49,8 @@ public class MeFragment extends Fragment implements ConstraintLayout.OnClickList
         layoutSettings.setOnClickListener(this);
         layoutDrivingHistory = view.findViewById(R.id.layoutDrivingHistory);
         layoutDrivingHistory.setOnClickListener(this);
+        layoutLogout = view.findViewById(R.id.layoutLogout);
+        layoutLogout.setOnClickListener(this);
         tvUserFullname = view.findViewById(R.id.tvUserFullname);
         tvLjPoints = view.findViewById(R.id.tvLjPoints);
 
@@ -68,6 +75,25 @@ public class MeFragment extends Fragment implements ConstraintLayout.OnClickList
                 Intent drivingHistoryActivity = new Intent(getActivity(), DrivingHistoryActivity.class);
                 startActivity(drivingHistoryActivity);
                 break;
+            case R.id.layoutLogout:
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                        .setCancelable(true)
+                        .setTitle("Logout?")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                presenter.logout();
+                            }
+                        })
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+                alertDialog.show();
+                break;
         }
     }
 
@@ -89,5 +115,12 @@ public class MeFragment extends Fragment implements ConstraintLayout.OnClickList
     @Override
     public void dismissLoadingView() {
         progressDialog.dismiss();
+    }
+
+    @Override
+    public void moveToLoginPage() {
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
+        Objects.requireNonNull(getActivity()).finish();
     }
 }

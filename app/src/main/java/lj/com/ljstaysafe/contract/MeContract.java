@@ -6,8 +6,10 @@ public interface MeContract {
         void setLjPoints(String ljPoints);
         void showLoadingView();
         void dismissLoadingView();
+        void moveToLoginPage();
     }
     interface Presenter{
         void loadUserProfile();
+        void logout();
     }
 }
