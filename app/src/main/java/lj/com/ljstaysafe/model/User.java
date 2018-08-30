@@ -1,7 +1,5 @@
 package lj.com.ljstaysafe.model;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +16,5 @@ public class User {
     private String fullname;
     private String email;
     private int points;
-    private List<Friend> friendList;
     private String drivingHistoryId;
 }

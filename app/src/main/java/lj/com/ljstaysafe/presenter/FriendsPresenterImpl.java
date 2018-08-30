@@ -8,14 +8,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import lj.com.ljstaysafe.R;
@@ -46,20 +45,22 @@ public class FriendsPresenterImpl implements FriendsContract.Presenter {
         view.showLoadingView();
         String userId = firebaseUser.getUid();
         firebaseFirestore
-                .collection(context.getResources().getString(R.string.user_collection))
-                .document(userId)
+                .collection(context.getResources().getString(R.string.friend_collection))
+                .whereEqualTo("friendId", userId)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            User user = task.getResult().toObject(User.class);
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
                             friends.clear();
-                            friends.addAll(Objects.requireNonNull(user).getFriendList());
+                            for (DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
+                                Friend friend = documentSnapshot.toObject(Friend.class);
+                                friends.add(friend);
+                            }
                             view.showFriends(friends);
                             view.dismissLoadingView();
-                        } else {
-                            Toast.makeText(context, "Loading friends failed\n" +
+                        } else{
+                            Toast.makeText(context, "Failed loading friend data\n" +
                                     task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             view.dismissLoadingView();
                         }
@@ -81,24 +82,26 @@ public class FriendsPresenterImpl implements FriendsContract.Presenter {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                                 User newFriendAccount = documentSnapshot.toObject(User.class);
-                                friends.add(Friend.builder()
+                                Friend newFriend = Friend.builder()
                                         .userId(Objects.requireNonNull(newFriendAccount).getId())
                                         .userFullname(newFriendAccount.getFullname())
-                                        .build());
-                                List<Map<String, String>> friendList = new ArrayList<>();
-                                for (Friend friend:friends){
-                                    Map<String, String> friendMap = new HashMap<>();
-                                    friendMap.put("userId", friend.getUserId());
-                                    friendMap.put("userFullname", friend.getUserFullname());
-                                    friendList.add(friendMap);
-                                }
+                                        .friendId(userId)
+                                        .build();
+                                friends.add(newFriend);
+//                                List<Map<String, String>> friendList = new ArrayList<>();
+//                                for (Friend friend:friends){
+//                                    Map<String, String> friendMap = new HashMap<>();
+//                                    friendMap.put("userId", friend.getUserId());
+//                                    friendMap.put("userFullname", friend.getUserFullname());
+//                                    friendMap.put("friendId", userId);
+//                                    friendList.add(friendMap);
+//                                }
                                 firebaseFirestore
-                                        .collection(context.getResources().getString(R.string.user_collection))
-                                        .document(userId)
-                                        .update("friendList", friendList)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        .collection(context.getResources().getString(R.string.friend_collection))
+                                        .add(newFriend)
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
+                                            public void onComplete(@NonNull Task<DocumentReference> task) {
                                                 if (task.isSuccessful()) {
                                                     view.showFriends(friends);
                                                     view.dismissLoadingView();
@@ -109,6 +112,22 @@ public class FriendsPresenterImpl implements FriendsContract.Presenter {
                                                 }
                                             }
                                         });
+//                                firebaseFirestore
+//                                        .collection(context.getResources().getString(R.string.friend_collection))
+//                                        .update("friendList", friendList)
+//                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                            @Override
+//                                            public void onComplete(@NonNull Task<Void> task) {
+//                                                if (task.isSuccessful()) {
+//                                                    view.showFriends(friends);
+//                                                    view.dismissLoadingView();
+//                                                } else {
+//                                                    Toast.makeText(context, "Adding new friend failed\n" +
+//                                                            task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                                                    view.dismissLoadingView();
+//                                                }
+//                                            }
+//                                        });
                             }
                         } else {
                             Toast.makeText(context, "Searching user with email : " + newFriendEmail + " failed\n" +

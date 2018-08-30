@@ -1,6 +1,7 @@
 package lj.com.ljstaysafe.fragment;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,15 +12,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.RecyclerViewHomeAdapter;
+import lj.com.ljstaysafe.contract.HomeContract;
 import lj.com.ljstaysafe.model.Feed;
+import lj.com.ljstaysafe.presenter.HomePresenterImpl;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeContract.View {
+
+    private List<Feed> feeds = new ArrayList<>();
 
     private RecyclerView rvHome;
     private RecyclerViewHomeAdapter rvHomeAdapter;
+
+    private ProgressDialog progressDialog;
+
+    private HomeContract.Presenter presenter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -41,10 +51,34 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         rvHome = view.findViewById(R.id.rvHome);
         rvHome.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvHomeAdapter = new RecyclerViewHomeAdapter(new ArrayList<Feed>());
+        rvHomeAdapter = new RecyclerViewHomeAdapter(feeds);
         rvHome.setAdapter(rvHomeAdapter);
-        rvHomeAdapter.notifyDataSetChanged();
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setIndeterminate(true);
+
+        presenter = new HomePresenterImpl(getActivity(), this);
+        presenter.loadFeeds();
+
         return  view;
     }
 
+    @Override
+    public void showLoadingView() {
+        progressDialog.show();
+    }
+
+    @Override
+    public void dismissLoadingView() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showFeeds(List<Feed> feeds) {
+        this.feeds.clear();
+        this.feeds.addAll(feeds);
+        rvHomeAdapter.notifyDataSetChanged();
+    }
 }

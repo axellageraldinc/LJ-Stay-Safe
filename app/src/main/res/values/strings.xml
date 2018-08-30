@@ -32,4 +32,6 @@
     <string name="enjoy_your_ride">Enjoy your ride!</string>
 
     <string name="user_collection">users</string>
+    <string name="feed_collection">feeds</string>
+    <string name="friend_collection">friends</string>
 </resources>

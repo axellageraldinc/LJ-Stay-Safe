@@ -14,4 +14,5 @@ import lombok.Setter;
 public class Friend {
     private String userId;
     private String userFullname;
+    private String friendId;
 }
