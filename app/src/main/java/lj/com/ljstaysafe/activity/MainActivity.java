@@ -146,16 +146,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onStart();
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         registerFence();
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(getApplicationContext()));
-        Job checkDrivingStatusJob = dispatcher.newJobBuilder()
-                .setService(CheckDrivingStatusFirebaseJobDispatcherService.class)
-                .setTag(CHECK_DRIVING_STATUS_TAG)
-                .setLifetime(Lifetime.FOREVER)
-                .setTrigger(Trigger.NOW)
-                .build();
-        dispatcher.mustSchedule(checkDrivingStatusJob);
-//        Intent intent = new Intent(this, CheckDrivingStatusService.class);
-//        startService(intent);
+//        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(getApplicationContext()));
+//        Job checkDrivingStatusJob = dispatcher.newJobBuilder()
+//                .setService(CheckDrivingStatusFirebaseJobDispatcherService.class)
+//                .setTag(CHECK_DRIVING_STATUS_TAG)
+//                .setLifetime(Lifetime.FOREVER)
+//                .setTrigger(Trigger.NOW)
+//                .build();
+//        dispatcher.mustSchedule(checkDrivingStatusJob);
+        Intent intent = new Intent(this, CheckDrivingStatusService.class);
+        startService(intent);
     }
 
 //    @Override
