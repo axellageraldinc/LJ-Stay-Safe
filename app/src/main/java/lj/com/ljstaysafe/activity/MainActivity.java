@@ -19,6 +19,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.Trigger;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.FenceUpdateRequest;
@@ -34,6 +39,7 @@ import java.util.Objects;
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.contract.DrivingStatusContract;
 import lj.com.ljstaysafe.driving.CheckDrivingStatusBroadcastReceiver;
+import lj.com.ljstaysafe.driving.CheckDrivingStatusFirebaseJobDispatcherService;
 import lj.com.ljstaysafe.driving.CheckDrivingStatusService;
 import lj.com.ljstaysafe.driving.NotificationHandler;
 import lj.com.ljstaysafe.driving.sensor.SensorReaderFactory;
@@ -47,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private static final String TAG = MainActivity.class.getName();
     private static final String FENCE_RECEIVER_ACTION = "FENCE_RECEIVE";
+    private static final String CHECK_DRIVING_STATUS_TAG = "check driving status tag";
 
     private long currentTime, lastTime;
 
@@ -139,26 +146,34 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onStart();
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         registerFence();
-        Intent intent = new Intent(this, CheckDrivingStatusService.class);
-        startService(intent);
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(getApplicationContext()));
+        Job checkDrivingStatusJob = dispatcher.newJobBuilder()
+                .setService(CheckDrivingStatusFirebaseJobDispatcherService.class)
+                .setTag(CHECK_DRIVING_STATUS_TAG)
+                .setLifetime(Lifetime.FOREVER)
+                .setTrigger(Trigger.NOW)
+                .build();
+        dispatcher.mustSchedule(checkDrivingStatusJob);
+//        Intent intent = new Intent(this, CheckDrivingStatusService.class);
+//        startService(intent);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        sensorManager.registerListener(this, gravity, SensorManager.SENSOR_DELAY_NORMAL);
-//        sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
-//        registerReceiver(checkDrivingStatusBroadcastReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+////        sensorManager.registerListener(this, gravity, SensorManager.SENSOR_DELAY_NORMAL);
+////        sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+////        registerReceiver(checkDrivingStatusBroadcastReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
+//    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Temporarily here for unregistering shits (for testing purposes, off screen)
-//        sensorManager.unregisterListener(this);
-//        unregisterFence();
-//        unregisterReceiver(checkDrivingStatusBroadcastReceiver);
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        // Temporarily here for unregistering shits (for testing purposes, off screen)
+////        sensorManager.unregisterListener(this);
+////        unregisterFence();
+////        unregisterReceiver(checkDrivingStatusBroadcastReceiver);
+//    }
 
     private void registerFence(){
         Intent intent = new Intent(FENCE_RECEIVER_ACTION);

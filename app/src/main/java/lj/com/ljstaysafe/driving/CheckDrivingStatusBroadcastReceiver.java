@@ -25,6 +25,9 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
         notificationHandler = new NotificationHandler(context);
     }
 
+    public CheckDrivingStatusBroadcastReceiver() {
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         FenceState fenceState = FenceState.extract(intent);

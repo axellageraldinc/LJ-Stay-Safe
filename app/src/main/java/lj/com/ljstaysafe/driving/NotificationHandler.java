@@ -30,9 +30,9 @@ public class NotificationHandler {
     }
 
     public void createNotification(Boolean isDriving, String title, String content, Boolean isPersistentNotification){
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_car)
-//                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
                 .setContentTitle(title)
                 .setContentText(content)
                 .setOngoing(isPersistentNotification)
