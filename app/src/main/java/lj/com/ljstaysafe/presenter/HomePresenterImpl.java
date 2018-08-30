@@ -9,11 +9,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import javax.annotation.Nullable;
 
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.contract.HomeContract;
@@ -50,8 +55,8 @@ public class HomePresenterImpl implements HomeContract.Presenter {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                                 Friend friend = documentSnapshot.toObject(Friend.class);
                                 userFriends.add(friend);
                             }
@@ -60,31 +65,24 @@ public class HomePresenterImpl implements HomeContract.Presenter {
                                     .userId(userId)
                                     .build());
                             // THIS IS BAD!
-                            for (Friend friend:userFriends) {
+                            for (Friend friend : userFriends) {
                                 firebaseFirestore
                                         .collection(context.getResources().getString(R.string.feed_collection))
                                         .whereEqualTo("ownerId", friend.getUserId())
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()){
-                                                    feeds.clear();
-                                                    for (DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                                                        Feed feed = documentSnapshot.toObject(Feed.class);
-                                                        feeds.add(feed);
-                                                    }
-                                                    view.showFeeds(feeds);
-                                                    view.dismissLoadingView();
-                                                } else{
-                                                    Toast.makeText(context, "Failed loading data\n" +
-                                                            task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                                    view.dismissLoadingView();
+                                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                                feeds.clear();
+                                                for (DocumentSnapshot documentSnapshot : Objects.requireNonNull(queryDocumentSnapshots).getDocuments()) {
+                                                    Feed feed = documentSnapshot.toObject(Feed.class);
+                                                    feeds.add(feed);
                                                 }
+                                                view.showFeeds(feeds);
+                                                view.dismissLoadingView();
                                             }
                                         });
                             }
-                        } else{
+                        } else {
                             Toast.makeText(context, "Failed loading data\n" +
                                     task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             view.dismissLoadingView();
