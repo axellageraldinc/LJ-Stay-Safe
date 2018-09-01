@@ -1,4 +1,4 @@
-package lj.com.ljstaysafe;
+package lj.com.ljstaysafe.view.recyclerview_adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.model.WhitelistContact;
 
 public class RecyclerViewWhitelistContactAdapter extends RecyclerView.Adapter<RecyclerViewWhitelistContactAdapter.ViewHolder> {

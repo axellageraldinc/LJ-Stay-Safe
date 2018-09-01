@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 import lj.com.ljstaysafe.R;
-import lj.com.ljstaysafe.RecyclerViewFriendsAdapter;
+import lj.com.ljstaysafe.view.recyclerview_adapter.RecyclerViewFriendsAdapter;
 import lj.com.ljstaysafe.contract.FriendsContract;
 import lj.com.ljstaysafe.dialog.AddFriendDialog;
 import lj.com.ljstaysafe.model.Friend;

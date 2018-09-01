@@ -7,7 +7,7 @@
     android:background="@color/colorPrimary"
     tools:context=".activity.RegisterActivity">
 
-    <lj.com.ljstaysafe.FredokaOneFont
+    <lj.com.ljstaysafe.view.font.FredokaOneFont
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <lj.com.ljstaysafe.FredokaOneFont
+            <lj.com.ljstaysafe.view.font.FredokaOneFont
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

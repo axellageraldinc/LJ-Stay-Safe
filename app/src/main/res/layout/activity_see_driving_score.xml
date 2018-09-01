@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <lj.com.ljstaysafe.FredokaOneFont
+        <lj.com.ljstaysafe.view.font.FredokaOneFont
             android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
-        <lj.com.ljstaysafe.FredokaOneFont
+        <lj.com.ljstaysafe.view.font.FredokaOneFont
             android:id="@+id/tvOverallScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

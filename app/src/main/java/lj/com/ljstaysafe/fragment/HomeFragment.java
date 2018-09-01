@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lj.com.ljstaysafe.R;
-import lj.com.ljstaysafe.RecyclerViewHomeAdapter;
+import lj.com.ljstaysafe.view.recyclerview_adapter.RecyclerViewHomeAdapter;
 import lj.com.ljstaysafe.contract.HomeContract;
 import lj.com.ljstaysafe.model.Feed;
 import lj.com.ljstaysafe.presenter.HomePresenterImpl;

@@ -65,9 +65,5 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
                     break;
             }
         }
-//        Intent fenceStatusHandlerServiceIntent = new Intent(context, FenceStatusHandlerService.class);
-//        fenceStatusHandlerServiceIntent.putExtra("fenceKey", fenceState.getFenceKey());
-//        fenceStatusHandlerServiceIntent.putExtra("fenceState", fenceState.getCurrentState());
-//        context.startService(fenceStatusHandlerServiceIntent);
     }
 }

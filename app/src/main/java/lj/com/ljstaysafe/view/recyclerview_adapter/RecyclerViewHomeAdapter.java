@@ -1,4 +1,4 @@
-package lj.com.ljstaysafe;
+package lj.com.ljstaysafe.view.recyclerview_adapter;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.model.Feed;
 
 public class RecyclerViewHomeAdapter extends RecyclerView.Adapter<RecyclerViewHomeAdapter.ViewHolder> {

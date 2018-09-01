@@ -14,14 +14,13 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import java.util.List;
 import java.util.Objects;
 
 import lj.com.ljstaysafe.R;
-import lj.com.ljstaysafe.RecyclerViewWhitelistContactAdapter;
+import lj.com.ljstaysafe.view.recyclerview_adapter.RecyclerViewWhitelistContactAdapter;
 import lj.com.ljstaysafe.contract.WhitelistContactContract;
 import lj.com.ljstaysafe.model.WhitelistContact;
 import lj.com.ljstaysafe.presenter.WhitelistContactPresenterImpl;

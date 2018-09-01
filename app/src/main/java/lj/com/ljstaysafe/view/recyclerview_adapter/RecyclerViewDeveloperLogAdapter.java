@@ -1,4 +1,4 @@
-package lj.com.ljstaysafe;
+package lj.com.ljstaysafe.view.recyclerview_adapter;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.model.DeveloperLog;
 
 public class RecyclerViewDeveloperLogAdapter extends RecyclerView.Adapter<RecyclerViewDeveloperLogAdapter.ViewHolder> {

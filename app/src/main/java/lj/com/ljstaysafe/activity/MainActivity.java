@@ -3,7 +3,6 @@ package lj.com.ljstaysafe.activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,11 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.Trigger;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.FenceUpdateRequest;
@@ -38,10 +32,7 @@ import java.util.Objects;
 
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.contract.DrivingStatusContract;
-import lj.com.ljstaysafe.driving.CheckDrivingStatusBroadcastReceiver;
-import lj.com.ljstaysafe.driving.CheckDrivingStatusFirebaseJobDispatcherService;
 import lj.com.ljstaysafe.driving.CheckDrivingStatusService;
-import lj.com.ljstaysafe.driving.NotificationHandler;
 import lj.com.ljstaysafe.driving.sensor.SensorReaderFactory;
 import lj.com.ljstaysafe.driving.sensor.ThreeAxesSensorReader;
 import lj.com.ljstaysafe.fragment.FriendsFragment;
@@ -146,14 +137,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onStart();
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         registerFence();
-//        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(getApplicationContext()));
-//        Job checkDrivingStatusJob = dispatcher.newJobBuilder()
-//                .setService(CheckDrivingStatusFirebaseJobDispatcherService.class)
-//                .setTag(CHECK_DRIVING_STATUS_TAG)
-//                .setLifetime(Lifetime.FOREVER)
-//                .setTrigger(Trigger.NOW)
-//                .build();
-//        dispatcher.mustSchedule(checkDrivingStatusJob);
         Intent intent = new Intent(this, CheckDrivingStatusService.class);
         startService(intent);
     }

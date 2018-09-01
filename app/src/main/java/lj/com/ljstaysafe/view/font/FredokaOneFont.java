@@ -1,4 +1,4 @@
-package lj.com.ljstaysafe;
+package lj.com.ljstaysafe.view.font;
 
 import android.content.Context;
 import android.graphics.Typeface;

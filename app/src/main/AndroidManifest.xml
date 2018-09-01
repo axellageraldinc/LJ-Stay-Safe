@@ -43,14 +43,6 @@
         <activity android:name=".activity.DeveloperActivity" />
 
         <service android:name=".driving.CheckDrivingStatusService" />
-        <service android:name=".driving.FenceStatusHandlerService" />
-        <service
-            android:name=".driving.CheckDrivingStatusFirebaseJobDispatcherService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import lj.com.ljstaysafe.R;
-import lj.com.ljstaysafe.RecyclerViewDrivingHistoryAdapter;
+import lj.com.ljstaysafe.view.recyclerview_adapter.RecyclerViewDrivingHistoryAdapter;
 import lj.com.ljstaysafe.model.DrivingHistory;
 
 public class DrivingHistoryActivity extends AppCompatActivity {

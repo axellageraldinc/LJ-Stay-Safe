@@ -11,13 +11,12 @@ import android.view.View;
 import android.widget.Button;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import lj.com.ljstaysafe.R;
-import lj.com.ljstaysafe.RecyclerViewDeveloperLogAdapter;
+import lj.com.ljstaysafe.view.recyclerview_adapter.RecyclerViewDeveloperLogAdapter;
 import lj.com.ljstaysafe.contract.DeveloperLogContract;
 import lj.com.ljstaysafe.model.DeveloperLog;
 import lj.com.ljstaysafe.model.SensorHelper;
