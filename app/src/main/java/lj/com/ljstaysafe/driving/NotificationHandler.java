@@ -15,13 +15,10 @@ import lj.com.ljstaysafe.activity.SeeDrivingScoreActivity;
 public class NotificationHandler {
 
     private static final String CHANNEL_ID = "123";
-    private static final Integer NOTIFICATION_ID = 123;
+    private static final int NOTIFICATION_ID = 123;
 
     private Context context;
     private NotificationManager notificationManager;
-
-    private Intent intent;
-    private PendingIntent pendingIntent;
 
     public NotificationHandler(Context context) {
         this.context = context;
@@ -30,13 +27,19 @@ public class NotificationHandler {
     }
 
     public void createNotification(Boolean isDriving, String title, String content, Boolean isPersistentNotification){
+        int smallIcon;
+        if (isDriving)
+            smallIcon = R.drawable.ic_logo_white;
+        else
+            smallIcon = R.mipmap.ic_kb_check;
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_car)
+                .setSmallIcon(smallIcon)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
                 .setContentTitle(title)
                 .setContentText(content)
                 .setOngoing(isPersistentNotification)
                 .setPriority(NotificationCompat.PRIORITY_MAX);
+        Intent intent;
         if(isDriving){
             intent = new Intent(context, PassengerActivity.class);
         } else{
@@ -44,7 +47,7 @@ public class NotificationHandler {
             notificationBuilder.setAutoCancel(true);
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         notificationBuilder.setContentIntent(pendingIntent);
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
     }

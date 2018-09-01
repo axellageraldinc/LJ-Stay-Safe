@@ -33,7 +33,11 @@
         <activity android:name=".activity.DrivingHistoryActivity" />
         <activity android:name=".activity.SeeDrivingScoreActivity" />
 
-        <receiver android:name=".driving.CheckDrivingStatusBroadcastReceiver" />
+        <receiver android:name=".driving.CheckDrivingStatusBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".activity.PassengerActivity" />
         <activity android:name=".activity.DeveloperActivity" />
