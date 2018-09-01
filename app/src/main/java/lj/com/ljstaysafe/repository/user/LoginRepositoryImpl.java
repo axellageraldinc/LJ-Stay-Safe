@@ -28,6 +28,11 @@ public class LoginRepositoryImpl implements LoginContract.Repository {
     }
 
     @Override
+    public String findUserEmail() {
+        return sharedPreferences.getString("userEmail", "");
+    }
+
+    @Override
     public void removeUserLoginInfo() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("userEmail");

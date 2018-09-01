@@ -202,6 +202,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             Sensor sensor = event.sensor;
             ThreeAxesSensorReader threeAxesSensorReader = SensorReaderFactory.getSensor(sensor.getType());
             currentTime = System.currentTimeMillis();
+
+            // only read sensors when the interval between previous and current reading is 100 ms
             if(currentTime-lastTime > 100) {
                 threeAxesSensorReader.read(event.values[0], event.values[1], event.values[2]);
                 lastTime = currentTime;

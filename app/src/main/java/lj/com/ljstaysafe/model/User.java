@@ -16,5 +16,4 @@ public class User {
     private String fullname;
     private String email;
     private int points;
-    private String drivingHistoryId;
 }

@@ -3,26 +3,48 @@ package lj.com.ljstaysafe.driving;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gms.awareness.fence.FenceState;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
+
 import lj.com.ljstaysafe.R;
+import lj.com.ljstaysafe.contract.DeveloperLogContract;
 import lj.com.ljstaysafe.contract.DrivingStatusContract;
+import lj.com.ljstaysafe.contract.LoginContract;
+import lj.com.ljstaysafe.model.BehaviourScoringHelper;
+import lj.com.ljstaysafe.model.DeveloperLog;
+import lj.com.ljstaysafe.model.DrivingHistory;
+import lj.com.ljstaysafe.repository.AppDatabase;
+import lj.com.ljstaysafe.repository.developer.DeveloperLogRepository;
 import lj.com.ljstaysafe.repository.driving.DrivingStatusRepositoryImpl;
+import lj.com.ljstaysafe.repository.driving_history.DrivingHistoryRepository;
+import lj.com.ljstaysafe.repository.user.LoginRepositoryImpl;
 
 public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
 
     private static final String TAG = CheckDrivingStatusBroadcastReceiver.class.getSimpleName();
 
     private DrivingStatusContract.Repository drivingStatusRepository;
+    private LoginContract.Repository loginRepository;
     private NotificationHandler notificationHandler;
     private Context context;
+    private AppDatabase database;
+    private static SimpleDateFormat SIMPLE_DATE_FORMAT;
+    private DecimalFormat df = new DecimalFormat("#.##");
 
     public CheckDrivingStatusBroadcastReceiver(Context context) {
         this.context = context;
         drivingStatusRepository = new DrivingStatusRepositoryImpl(context);
+        loginRepository = new LoginRepositoryImpl(context);
         notificationHandler = new NotificationHandler(context);
+        database = AppDatabase.getDbInstance(context);
+        SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
     }
 
     public CheckDrivingStatusBroadcastReceiver() {
@@ -47,6 +69,19 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
                 case FenceState.FALSE:
                     if (!drivingStatusRepository.isPassenger()) {
                         drivingStatusRepository.saveDrivingStatus(false);
+                        new SaveDrivingHistory(
+                                database.drivingHistoryRepository())
+                                .execute(DrivingHistory.builder()
+                                        .id(UUID.randomUUID().toString())
+                                        .date(SIMPLE_DATE_FORMAT.format(new Date()))
+                                        .distractedScore(df.format(BehaviourScoringHelper.CURRENT_DISTRACTED_SCORE))
+                                        .honkingScore(df.format(0.0))
+                                        .highSpeedScore(df.format(0.0))
+                                        .suddenBrakeScore(df.format(0.0))
+                                        .turnScore(df.format(0.0))
+                                        .overallScore(df.format(BehaviourScoringHelper.CURRENT_OVERALL_SCORE))
+                                        .build());
+                        resetBehaviourScore();
                     } else {
                         drivingStatusRepository.savePassengerStatus(false);
                     }
@@ -66,4 +101,25 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
             }
         }
     }
+
+    private static class SaveDrivingHistory extends AsyncTask<DrivingHistory, Void, Void> {
+
+        private DrivingHistoryRepository drivingHistoryRepository;
+
+        public SaveDrivingHistory(DrivingHistoryRepository drivingHistoryRepository) {
+            this.drivingHistoryRepository = drivingHistoryRepository;
+        }
+
+        @Override
+        protected Void doInBackground(DrivingHistory... drivingHistories) {
+            drivingHistoryRepository.saveDrivingHistory(drivingHistories[0]);
+            return null;
+        }
+    }
+
+    private void resetBehaviourScore(){
+        BehaviourScoringHelper.CURRENT_DISTRACTED_SCORE = BehaviourScoringHelper.INITIAL_DISTRACTED_SCORE;
+        BehaviourScoringHelper.CURRENT_OVERALL_SCORE = BehaviourScoringHelper.INITIAL_OVERALL_SCORE;
+    }
+
 }

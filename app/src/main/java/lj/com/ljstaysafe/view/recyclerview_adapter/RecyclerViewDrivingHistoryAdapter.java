@@ -8,16 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.model.DrivingHistory;
 
 public class RecyclerViewDrivingHistoryAdapter extends RecyclerView.Adapter<RecyclerViewDrivingHistoryAdapter.ViewHolder> {
-
-    @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
     private List<DrivingHistory> drivingHistoryList;
 
@@ -36,7 +32,7 @@ public class RecyclerViewDrivingHistoryAdapter extends RecyclerView.Adapter<Recy
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DrivingHistory drivingHistory = drivingHistoryList.get(position);
         holder.tvOverallScore.setText(String.valueOf(drivingHistory.getOverallScore()));
-        holder.tvDate.setText(SIMPLE_DATE_FORMAT.format(drivingHistory.getDate()));
+        holder.tvDate.setText(drivingHistory.getDate());
         holder.tvSuddenBrakeScore.setText(String.valueOf(drivingHistory.getSuddenBrakeScore()));
         holder.tvTurnScore.setText(String.valueOf(drivingHistory.getTurnScore()));
         holder.tvHonkingScore.setText(String.valueOf(drivingHistory.getHonkingScore()));

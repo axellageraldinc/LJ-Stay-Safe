@@ -78,9 +78,9 @@ public class DeveloperActivity extends AppCompatActivity implements Button.OnCli
                         .date(SIMPLE_DATE_FORMAT.format(new Date()))
                         .value(
                                 String.valueOf(stringBuilder
-                                        .append("x : ").append(String.valueOf(SensorHelper.ACC_X))
-                                        .append("\ny : ").append(String.valueOf(SensorHelper.ACC_Y))
-                                        .append("\nz : ").append(String.valueOf(SensorHelper.ACC_Z)))
+                                        .append("x : ").append(String.valueOf(SensorHelper.ACC_CURRENT_X))
+                                        .append("\ny : ").append(String.valueOf(SensorHelper.ACC_CURRENT_Y))
+                                        .append("\nz : ").append(String.valueOf(SensorHelper.ACC_CURRENT_Z)))
                         )
                         .build());
                 stringBuilder.setLength(0);

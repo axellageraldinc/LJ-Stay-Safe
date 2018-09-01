@@ -7,15 +7,18 @@ import android.content.Context;
 
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.model.DeveloperLog;
+import lj.com.ljstaysafe.model.DrivingHistory;
 import lj.com.ljstaysafe.model.WhitelistContact;
 import lj.com.ljstaysafe.repository.developer.DeveloperLogRepository;
+import lj.com.ljstaysafe.repository.driving_history.DrivingHistoryRepository;
 import lj.com.ljstaysafe.repository.whitelist_contact.WhitelistContactRepository;
 
-@Database(entities = {WhitelistContact.class, DeveloperLog.class}, version = 1)
+@Database(entities = {WhitelistContact.class, DeveloperLog.class, DrivingHistory.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract WhitelistContactRepository whitelistContactRepository();
-    private static AppDatabase DB_INSTANCE;
     public abstract DeveloperLogRepository developerLogRepository();
+    public abstract DrivingHistoryRepository drivingHistoryRepository();
+    private static AppDatabase DB_INSTANCE;
     public static AppDatabase getDbInstance(final Context context){
         if(DB_INSTANCE==null){
             synchronized (AppDatabase.class){

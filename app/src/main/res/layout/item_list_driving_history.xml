@@ -20,7 +20,7 @@
             android:id="@+id/tvOverallScore"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:text="TextView"
             android:textColor="@color/textTitleColor"
@@ -36,6 +36,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:text="TextView"
+            android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="@+id/tvOverallScore"
             app:layout_constraintStart_toStartOf="@+id/tvOverallScore"
             app:layout_constraintTop_toBottomOf="@+id/tvOverallScore" />
@@ -44,17 +45,19 @@
             android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="Sudden Brake Score : "
-            app:layout_constraintStart_toEndOf="@+id/tvOverallScore"
+            app:layout_constraintStart_toEndOf="@+id/tvDate"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvSuddenBrakeScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView17"
             app:layout_constraintTop_toTopOf="@+id/textView17" />
 

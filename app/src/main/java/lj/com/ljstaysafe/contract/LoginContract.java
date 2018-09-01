@@ -9,6 +9,7 @@ public interface LoginContract {
     interface Repository{
         void saveUserLoginInfo(String email);
         boolean isUserAlreadyLoggedIn();
+        String findUserEmail();
         void removeUserLoginInfo();
     }
     interface Presenter{
