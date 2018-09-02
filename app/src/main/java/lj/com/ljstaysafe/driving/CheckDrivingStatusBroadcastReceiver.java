@@ -14,24 +14,18 @@ import java.util.Date;
 import java.util.UUID;
 
 import lj.com.ljstaysafe.R;
-import lj.com.ljstaysafe.contract.DeveloperLogContract;
 import lj.com.ljstaysafe.contract.DrivingStatusContract;
-import lj.com.ljstaysafe.contract.LoginContract;
 import lj.com.ljstaysafe.model.BehaviourScoringHelper;
-import lj.com.ljstaysafe.model.DeveloperLog;
 import lj.com.ljstaysafe.model.DrivingHistory;
 import lj.com.ljstaysafe.repository.AppDatabase;
-import lj.com.ljstaysafe.repository.developer.DeveloperLogRepository;
 import lj.com.ljstaysafe.repository.driving.DrivingStatusRepositoryImpl;
 import lj.com.ljstaysafe.repository.driving_history.DrivingHistoryRepository;
-import lj.com.ljstaysafe.repository.user.LoginRepositoryImpl;
 
 public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
 
     private static final String TAG = CheckDrivingStatusBroadcastReceiver.class.getSimpleName();
 
     private DrivingStatusContract.Repository drivingStatusRepository;
-    private LoginContract.Repository loginRepository;
     private NotificationHandler notificationHandler;
     private Context context;
     private AppDatabase database;
@@ -41,7 +35,6 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
     public CheckDrivingStatusBroadcastReceiver(Context context) {
         this.context = context;
         drivingStatusRepository = new DrivingStatusRepositoryImpl(context);
-        loginRepository = new LoginRepositoryImpl(context);
         notificationHandler = new NotificationHandler(context);
         database = AppDatabase.getDbInstance(context);
         SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");

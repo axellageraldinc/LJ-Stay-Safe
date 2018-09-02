@@ -40,13 +40,10 @@ import lj.com.ljstaysafe.fragment.HomeFragment;
 import lj.com.ljstaysafe.fragment.MeFragment;
 import lj.com.ljstaysafe.repository.driving.DrivingStatusRepositoryImpl;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, SensorEventListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getName();
     private static final String FENCE_RECEIVER_ACTION = "FENCE_RECEIVE";
-    private static final String CHECK_DRIVING_STATUS_TAG = "check driving status tag";
-
-    private long currentTime, lastTime;
 
     private Toolbar toolbar;
     private BottomNavigationView bottomNavigationView;
@@ -54,20 +51,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private GoogleApiClient googleApiClient;
     private PendingIntent pendingIntent;
 
-    private SensorManager sensorManager;
-    private Sensor accelerometer, gravity, gyroscope;
-
-    private DrivingStatusContract.Repository drivingStatusRepository;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        drivingStatusRepository = new DrivingStatusRepositoryImpl(this);
-
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        registerSensors();
 
         connectGoogleApiClient();
 
@@ -105,26 +92,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         fragmentTransaction.commit();
     }
 
-    private void registerSensors(){
-        if(Objects.requireNonNull(sensorManager).getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
-            if(accelerometer==null) {
-                Log.d(TAG, "instantiate accel");
-                accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-            }
-        }
-//        if(Objects.requireNonNull(sensorManager).getDefaultSensor(Sensor.TYPE_GRAVITY) != null){
-//            if(gravity==null) {
-//                Log.i(TAG, "instantiate gravity");
-//                gravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-//            }
-//        } if(Objects.requireNonNull(sensorManager).getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null){
-//            if(gyroscope==null) {
-//                Log.i(TAG, "instantiate gyro");
-//                gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-//            }
-//        }
-    }
-
     private void connectGoogleApiClient(){
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Awareness.API)
@@ -135,28 +102,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onStart() {
         super.onStart();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         registerFence();
         Intent intent = new Intent(this, CheckDrivingStatusService.class);
         startService(intent);
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-////        sensorManager.registerListener(this, gravity, SensorManager.SENSOR_DELAY_NORMAL);
-////        sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
-////        registerReceiver(checkDrivingStatusBroadcastReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
-//    }
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        // Temporarily here for unregistering shits (for testing purposes, off screen)
-////        sensorManager.unregisterListener(this);
-////        unregisterFence();
-////        unregisterReceiver(checkDrivingStatusBroadcastReceiver);
-//    }
 
     private void registerFence(){
         Intent intent = new Intent(FENCE_RECEIVER_ACTION);
@@ -194,25 +143,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 Log.d(TAG, "Fence " + getResources().getString(R.string.driving_status) + " could NOT be removed.");
             }
         });
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if(drivingStatusRepository.isDriving()) {
-            Sensor sensor = event.sensor;
-            ThreeAxesSensorReader threeAxesSensorReader = SensorReaderFactory.getSensor(sensor.getType());
-            currentTime = System.currentTimeMillis();
-
-            // only read sensors when the interval between previous and current reading is 100 ms
-            if(currentTime-lastTime > 100) {
-                threeAxesSensorReader.read(event.values[0], event.values[1], event.values[2]);
-                lastTime = currentTime;
-            }
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
 }

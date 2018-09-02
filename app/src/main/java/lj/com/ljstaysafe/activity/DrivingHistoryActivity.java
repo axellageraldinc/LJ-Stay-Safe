@@ -52,9 +52,6 @@ public class DrivingHistoryActivity extends AppCompatActivity implements Driving
 
     @Override
     public void loadDrivingHistories(List<DrivingHistory> drivingHistoryList) {
-        for (DrivingHistory drivingHistory:drivingHistoryList){
-            System.out.println(drivingHistory.getId() + " " + drivingHistory.getDistractedScore());
-        }
         drivingHistories.clear();
         drivingHistories.addAll(drivingHistoryList);
         rvDrivingHistoryAdapter.notifyDataSetChanged();

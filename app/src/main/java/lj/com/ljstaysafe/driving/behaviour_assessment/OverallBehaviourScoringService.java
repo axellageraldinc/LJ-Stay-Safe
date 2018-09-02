@@ -6,6 +6,8 @@ public class OverallBehaviourScoringService implements BehaviourScoringService {
 
     private static final int BEHAVIOUR_TOTAL = 1;
 
+    private double behaviourScore=0;
+
     private BehaviourScoringService distractedBehaviourScoringService;
 
     public OverallBehaviourScoringService(BehaviourScoringService distractedBehaviourScoringService) {
@@ -14,6 +16,7 @@ public class OverallBehaviourScoringService implements BehaviourScoringService {
 
     @Override
     public double calculateScore() {
-        return BehaviourScoringHelper.CURRENT_OVERALL_SCORE -= ((distractedBehaviourScoringService.calculateScore()) / BEHAVIOUR_TOTAL);
+        behaviourScore = ((distractedBehaviourScoringService.calculateScore()) / BEHAVIOUR_TOTAL);
+        return BehaviourScoringHelper.CURRENT_OVERALL_SCORE = behaviourScore;
     }
 }
