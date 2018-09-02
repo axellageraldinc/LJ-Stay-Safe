@@ -17,6 +17,7 @@ import java.util.Objects;
 import lj.com.ljstaysafe.contract.DrivingStatusContract;
 import lj.com.ljstaysafe.driving.sensor.SensorReaderFactory;
 import lj.com.ljstaysafe.driving.sensor.ThreeAxesSensorReader;
+import lj.com.ljstaysafe.driving.sms.SmsReceiver;
 import lj.com.ljstaysafe.repository.driving.DrivingStatusRepositoryImpl;
 
 public class CheckDrivingStatusService extends Service implements SensorEventListener {
