@@ -46,7 +46,7 @@ public class FriendsPresenterImpl implements FriendsContract.Presenter {
         String userId = firebaseUser.getUid();
         firebaseFirestore
                 .collection(context.getResources().getString(R.string.friend_collection))
-                .whereEqualTo("friendId", userId)
+                .whereEqualTo("userId", userId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -83,16 +83,16 @@ public class FriendsPresenterImpl implements FriendsContract.Presenter {
                             for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
                                 User newFriendAccount = documentSnapshot.toObject(User.class);
                                 Friend newFriend = Friend.builder()
-                                        .userId(Objects.requireNonNull(newFriendAccount).getId())
-                                        .userFullname(newFriendAccount.getFullname())
-                                        .friendId(userId)
+                                        .userId(userId)
+                                        .friendFullname(newFriendAccount.getFullname())
+                                        .friendId(Objects.requireNonNull(newFriendAccount).getId())
                                         .build();
                                 friends.add(newFriend);
 //                                List<Map<String, String>> friendList = new ArrayList<>();
 //                                for (Friend friend:friends){
 //                                    Map<String, String> friendMap = new HashMap<>();
 //                                    friendMap.put("userId", friend.getUserId());
-//                                    friendMap.put("userFullname", friend.getUserFullname());
+//                                    friendMap.put("friendFullname", friend.getFriendFullname());
 //                                    friendMap.put("friendId", userId);
 //                                    friendList.add(friendMap);
 //                                }

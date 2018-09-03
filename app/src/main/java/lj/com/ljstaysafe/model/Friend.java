@@ -13,6 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Friend {
     private String userId;
-    private String userFullname;
+    private String friendFullname;
     private String friendId;
 }

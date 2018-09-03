@@ -30,8 +30,8 @@ public class RecyclerViewFriendsAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Friend friend = friendList.get(position);
-        holder.tvUserId.setText(friend.getUserId());
-        holder.tvUserFullname.setText(friend.getUserFullname());
+        holder.tvUserId.setText(friend.getFriendId());
+        holder.tvFriendFullname.setText(friend.getFriendFullname());
     }
 
     @Override
@@ -41,12 +41,12 @@ public class RecyclerViewFriendsAdapter extends RecyclerView.Adapter<RecyclerVie
 
     static class ViewHolder extends RecyclerViewHomeAdapter.ViewHolder{
 
-        private TextView tvUserId, tvUserFullname;
+        private TextView tvUserId, tvFriendFullname;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvUserId = itemView.findViewById(R.id.tvUserId);
-            tvUserFullname = itemView.findViewById(R.id.tvUserFullname);
+            tvFriendFullname = itemView.findViewById(R.id.tvFriendFullname);
         }
     }
 }
