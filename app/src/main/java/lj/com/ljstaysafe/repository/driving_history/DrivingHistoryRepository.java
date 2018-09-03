@@ -12,6 +12,8 @@ import lj.com.ljstaysafe.model.DrivingHistory;
 public interface DrivingHistoryRepository {
     @Insert
     void saveDrivingHistory(DrivingHistory drivingHistory);
-    @Query(value = "SELECT * FROM driving_history")
+    @Query(value = "SELECT * FROM driving_history ORDER BY createdDate DESC")
     List<DrivingHistory> findAllDrivingHistory();
+    @Query(value = "SELECT * FROM driving_history ORDER BY createdDate DESC LIMIT 1")
+    List<DrivingHistory> findLastDrivingHistory();
 }

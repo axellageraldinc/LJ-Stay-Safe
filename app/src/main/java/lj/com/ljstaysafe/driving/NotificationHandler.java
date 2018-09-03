@@ -5,12 +5,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.activity.PassengerActivity;
 import lj.com.ljstaysafe.activity.SeeDrivingScoreActivity;
+import lj.com.ljstaysafe.model.DrivingHistory;
 
 public class NotificationHandler {
 
@@ -22,7 +24,6 @@ public class NotificationHandler {
 
     public NotificationHandler(Context context) {
         this.context = context;
-//        notificationManager = NotificationManagerCompat.from(context);
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
@@ -46,6 +47,27 @@ public class NotificationHandler {
             intent = new Intent(context, SeeDrivingScoreActivity.class);
             notificationBuilder.setAutoCancel(true);
         }
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationBuilder.setContentIntent(pendingIntent);
+        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+    }
+
+    public void createNotification(String title, String content, Boolean isPersistentNotification, DrivingHistory drivingHistory){
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.mipmap.ic_kb_check)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
+                .setContentTitle(title)
+                .setContentText(content)
+                .setOngoing(isPersistentNotification)
+                .setPriority(NotificationCompat.PRIORITY_MAX);
+
+        Intent intent = new Intent(context, SeeDrivingScoreActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("drivingHistory", drivingHistory);
+        intent.putExtra("drivingHistory", bundle);
+        notificationBuilder.setAutoCancel(true);
+
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         notificationBuilder.setContentIntent(pendingIntent);

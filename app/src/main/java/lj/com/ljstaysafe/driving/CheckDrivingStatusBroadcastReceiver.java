@@ -29,7 +29,6 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
     private NotificationHandler notificationHandler;
     private Context context;
     private AppDatabase database;
-    private static SimpleDateFormat SIMPLE_DATE_FORMAT;
     private DecimalFormat df = new DecimalFormat("#.##");
 
     public CheckDrivingStatusBroadcastReceiver(Context context) {
@@ -37,7 +36,6 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
         drivingStatusRepository = new DrivingStatusRepositoryImpl(context);
         notificationHandler = new NotificationHandler(context);
         database = AppDatabase.getDbInstance(context);
-        SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
     }
 
     public CheckDrivingStatusBroadcastReceiver() {
@@ -62,27 +60,32 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
                 case FenceState.FALSE:
                     if (!drivingStatusRepository.isPassenger()) {
                         drivingStatusRepository.saveDrivingStatus(false);
+                        DrivingHistory drivingHistory = DrivingHistory.builder()
+                                .id(UUID.randomUUID().toString())
+                                .distractedScore(df.format(BehaviourScoringHelper.CURRENT_DISTRACTED_SCORE))
+                                .honkingScore(df.format(0.0))
+                                .highSpeedScore(df.format(0.0))
+                                .suddenBrakeScore(df.format(0.0))
+                                .turnScore(df.format(0.0))
+                                .overallScore(df.format(BehaviourScoringHelper.CURRENT_OVERALL_SCORE))
+                                .createdDate(new Date())
+                                .build();
                         new SaveDrivingHistory(
                                 database.drivingHistoryRepository())
-                                .execute(DrivingHistory.builder()
-                                        .id(UUID.randomUUID().toString())
-                                        .date(SIMPLE_DATE_FORMAT.format(new Date()))
-                                        .distractedScore(df.format(BehaviourScoringHelper.CURRENT_DISTRACTED_SCORE))
-                                        .honkingScore(df.format(0.0))
-                                        .highSpeedScore(df.format(0.0))
-                                        .suddenBrakeScore(df.format(0.0))
-                                        .turnScore(df.format(0.0))
-                                        .overallScore(df.format(BehaviourScoringHelper.CURRENT_OVERALL_SCORE))
-                                        .build());
+                                .execute(drivingHistory);
                         resetBehaviourScore();
+                        notificationHandler.createNotification(
+                                "Driving is over",
+                                "Click here to see your driving score",
+                                false, drivingHistory);
                     } else {
                         drivingStatusRepository.savePassengerStatus(false);
+                        notificationHandler.createNotification(
+                                false,
+                                "Driving is over",
+                                "Click here to see your driving score",
+                                false);
                     }
-                    notificationHandler.createNotification(
-                            false,
-                            "Driving is over",
-                            "Click here to see your driving score",
-                            false);
                     break;
                 case FenceState.UNKNOWN:
                     if (!drivingStatusRepository.isPassenger()) {
