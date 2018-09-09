@@ -16,7 +16,6 @@ import lj.com.ljstaysafe.repository.message.MessageSettingRepositoryImpl;
 public class SmsReceiver extends BroadcastReceiver {
 
     private static final String TAG = SmsReceiver.class.getName();
-    private Context context;
     private DrivingStatusContract.Repository drivingStatusRepository;
     private MessageSettingsDialogContract.Repository messageSettingsRepository;
 

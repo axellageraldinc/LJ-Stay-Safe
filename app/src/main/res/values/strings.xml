@@ -34,4 +34,5 @@
     <string name="user_collection">users</string>
     <string name="feed_collection">feeds</string>
     <string name="friend_collection">friends</string>
+    <string name="ringer_mode">ringerMode</string>
 </resources>

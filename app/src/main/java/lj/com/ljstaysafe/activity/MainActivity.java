@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,8 @@ import lj.com.ljstaysafe.driving.sensor.ThreeAxesSensorReader;
 import lj.com.ljstaysafe.fragment.FriendsFragment;
 import lj.com.ljstaysafe.fragment.HomeFragment;
 import lj.com.ljstaysafe.fragment.MeFragment;
+import lj.com.ljstaysafe.repository.audio.AudioRepository;
+import lj.com.ljstaysafe.repository.audio.AudioRepositoryImpl;
 import lj.com.ljstaysafe.repository.driving.DrivingStatusRepositoryImpl;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -50,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private GoogleApiClient googleApiClient;
     private PendingIntent pendingIntent;
+
+    private AudioManager audioManager;
+    private AudioRepository audioRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         loadFragment(HomeFragment.newInstance());
+
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioRepository = new AudioRepositoryImpl(this);
+        audioRepository.saveRingerMode(audioManager.getRingerMode());
     }
 
     @Override

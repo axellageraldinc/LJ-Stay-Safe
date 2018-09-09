@@ -3,6 +3,7 @@ package lj.com.ljstaysafe.driving;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -15,17 +16,24 @@ import java.util.UUID;
 
 import lj.com.ljstaysafe.R;
 import lj.com.ljstaysafe.contract.DrivingStatusContract;
+import lj.com.ljstaysafe.contract.NotificationSettingsDialogContract;
 import lj.com.ljstaysafe.model.BehaviourScoringHelper;
 import lj.com.ljstaysafe.model.DrivingHistory;
 import lj.com.ljstaysafe.repository.AppDatabase;
+import lj.com.ljstaysafe.repository.audio.AudioRepository;
+import lj.com.ljstaysafe.repository.audio.AudioRepositoryImpl;
 import lj.com.ljstaysafe.repository.driving.DrivingStatusRepositoryImpl;
 import lj.com.ljstaysafe.repository.driving_history.DrivingHistoryRepository;
+import lj.com.ljstaysafe.repository.notification.NotificationSettingRepositoryImpl;
 
 public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
 
     private static final String TAG = CheckDrivingStatusBroadcastReceiver.class.getSimpleName();
 
     private DrivingStatusContract.Repository drivingStatusRepository;
+    private NotificationSettingsDialogContract.Repository notificationSettingsRepository;
+    private AudioManager audioManager;
+    private AudioRepository audioRepository;
     private NotificationHandler notificationHandler;
     private Context context;
     private AppDatabase database;
@@ -33,9 +41,12 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
 
     public CheckDrivingStatusBroadcastReceiver(Context context) {
         this.context = context;
+        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        audioRepository = new AudioRepositoryImpl(context);
         drivingStatusRepository = new DrivingStatusRepositoryImpl(context);
         notificationHandler = new NotificationHandler(context);
         database = AppDatabase.getDbInstance(context);
+        notificationSettingsRepository = new NotificationSettingRepositoryImpl(context);
     }
 
     public CheckDrivingStatusBroadcastReceiver() {
@@ -55,6 +66,9 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
                                 "No phone while driving!!!",
                                 "Click here if you are a passenger",
                                 true);
+                        if (notificationSettingsRepository.getSetting()) {
+                            audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                        }
                     }
                     break;
                 case FenceState.FALSE:
@@ -78,6 +92,8 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
                                 "Driving is over",
                                 "Click here to see your driving score",
                                 false, drivingHistory);
+                        if (notificationSettingsRepository.getSetting())
+                            audioManager.setRingerMode(audioRepository.getSavedRingerMode());
                     } else {
                         drivingStatusRepository.savePassengerStatus(false);
                         notificationHandler.createNotification(
@@ -90,6 +106,8 @@ public class CheckDrivingStatusBroadcastReceiver extends BroadcastReceiver {
                 case FenceState.UNKNOWN:
                     if (!drivingStatusRepository.isPassenger()) {
                         drivingStatusRepository.saveDrivingStatus(false);
+                        if (notificationSettingsRepository.getSetting())
+                            audioManager.setRingerMode(audioRepository.getSavedRingerMode());
                     } else {
                         drivingStatusRepository.savePassengerStatus(false);
                     }
