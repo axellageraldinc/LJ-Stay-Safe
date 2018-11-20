@@ -39,6 +39,7 @@ public class SettingsActivity extends AppCompatActivity implements ConstraintLay
         layoutNotificationSettings.setOnClickListener(this);
         layoutMessageSettings = findViewById(R.id.layoutMessageSettings);
         layoutMessageSettings.setOnClickListener(this);
+        layoutMessageSettings.setVisibility(View.GONE);
         layoutDeveloperMenu = findViewById(R.id.layoutDeveloperMenu);
         layoutDeveloperMenu.setOnClickListener(this);
     }

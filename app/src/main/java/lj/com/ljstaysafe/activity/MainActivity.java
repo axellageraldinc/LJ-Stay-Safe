@@ -3,24 +3,21 @@ package lj.com.ljstaysafe.activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
+import com.google.android.gms.awareness.fence.DetectedActivityFence;
 import com.google.android.gms.awareness.fence.FenceUpdateRequest;
 import com.google.android.gms.awareness.fence.HeadphoneFence;
 import com.google.android.gms.awareness.state.HeadphoneState;
@@ -32,16 +29,12 @@ import com.google.android.gms.common.api.Status;
 import java.util.Objects;
 
 import lj.com.ljstaysafe.R;
-import lj.com.ljstaysafe.contract.DrivingStatusContract;
 import lj.com.ljstaysafe.driving.CheckDrivingStatusService;
-import lj.com.ljstaysafe.driving.sensor.SensorReaderFactory;
-import lj.com.ljstaysafe.driving.sensor.ThreeAxesSensorReader;
 import lj.com.ljstaysafe.fragment.FriendsFragment;
 import lj.com.ljstaysafe.fragment.HomeFragment;
 import lj.com.ljstaysafe.fragment.MeFragment;
 import lj.com.ljstaysafe.repository.audio.AudioRepository;
 import lj.com.ljstaysafe.repository.audio.AudioRepositoryImpl;
-import lj.com.ljstaysafe.repository.driving.DrivingStatusRepositoryImpl;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -78,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.navigation_home:
                 HomeFragment homeFragment = HomeFragment.newInstance();
                 loadFragment(homeFragment);
@@ -95,14 +88,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-    private void loadFragment(Fragment fragment){
+    private void loadFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.commit();
     }
 
-    private void connectGoogleApiClient(){
+    private void connectGoogleApiClient() {
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Awareness.API)
                 .build();
@@ -117,9 +110,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         startService(intent);
     }
 
-    private void registerFence(){
+    private void registerFence() {
         Intent intent = new Intent(FENCE_RECEIVER_ACTION);
         pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+//        AwarenessFence drivingFence = DetectedActivityFence.during(DetectedActivityFence.IN_VEHICLE);
+//        Awareness.FenceApi.updateFences(
+//                googleApiClient,
+//                new FenceUpdateRequest.Builder()
+//                        .addFence(getResources().getString(R.string.driving_status), drivingFence, pendingIntent)
+//                        .build())
+//                .setResultCallback(new ResultCallback<Status>() {
+//                    @Override
+//                    public void onResult(@NonNull Status status) {
+//                        if (status.isSuccess()) {
+//                            Log.i(TAG, "Fence was successfully registered.");
+//                        } else {
+//                            Log.e(TAG, "Fence could not be registered: " + status);
+//                        }
+//                    }
+//                });
         AwarenessFence headphoneFence = HeadphoneFence.during(HeadphoneState.PLUGGED_IN);
         Awareness.FenceApi.updateFences(
                 googleApiClient,
@@ -137,7 +146,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     }
                 });
     }
-    private void unregisterFence(){
+
+    private void unregisterFence() {
         Awareness.FenceApi.updateFences(
                 googleApiClient,
                 new FenceUpdateRequest.Builder()
